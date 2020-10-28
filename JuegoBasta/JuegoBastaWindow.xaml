@@ -7,21 +7,17 @@
         mc:Ignorable="d"
         Title="JuegoBastaWindow" Height="450" Width="800">
     <DockPanel>
-        <TextBlock DockPanel.Dock="Bottom" Text="{Binding Mensaje}"></TextBlock>
-        <Border Margin="10" BorderBrush="Red" BorderThickness="2" DockPanel.Dock="Left">
-            <StackPanel >
-                <TextBlock HorizontalAlignment="Center" FontSize="20" Text="{Binding Jugador1}"></TextBlock>
-
-            </StackPanel>
+        <TextBlock FontFamily="Century Gothic" FontSize="20" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Text="{Binding Mensaje}"></TextBlock>
+        <Border Margin="10" Padding="5" BorderBrush="Red" BorderThickness="2" DockPanel.Dock="Left">
+            <TextBlock HorizontalAlignment="Center" FontSize="20" Margin="5" Text="{Binding Jugador1}"/>
         </Border>
 
-        <Border Margin="10" BorderBrush="Red" BorderThickness="2" DockPanel.Dock="Right">
-            <StackPanel >
-                <TextBlock HorizontalAlignment="Center" FontSize="20" Text="{Binding Jugador2}"></TextBlock>
-
-            </StackPanel>
+        <Border Margin="10" Padding="5" BorderBrush="Red" BorderThickness="2" DockPanel.Dock="Right">
+            <TextBlock Margin="5" HorizontalAlignment="Center" FontSize="20" Text="{Binding Jugador2}"/>
         </Border>
-        <Grid></Grid>
+        <Grid>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">TABLERO JUEGO</TextBlock>
+        </Grid>
 
     </DockPanel>
 </Window>
