@@ -1,0 +1,14 @@
+﻿<Window x:Class="JuegoBasta.LobbyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JuegoBasta"
+        mc:Ignorable="d"
+        Title="Sala de Espera" Height="300" Width="500">
+    <StackPanel Margin="10">
+        <Label Margin="20" DockPanel.Dock="Top" FontFamily="Century Gothic" HorizontalAlignment="Center" FontSize="32">SALA DE ESPERA</Label>
+        <TextBlock FontFamily="Century Gothic" FontSize="25">Usuario: <TextBlock FontWeight="Bold" FontFamily="Century Gothic" Text="{Binding Jugador1}"></TextBlock></TextBlock>
+        <TextBlock HorizontalAlignment="Center" FontFamily="Century Gothic" Margin="0,10" FontStyle="Italic" FontSize="20" Text="{Binding Mensaje}"/>
+    </StackPanel>
+</Window>
