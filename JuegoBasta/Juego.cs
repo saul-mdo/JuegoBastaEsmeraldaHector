@@ -71,7 +71,7 @@ namespace JuegoBasta
             await cliente.ConnectAsync(new Uri($"ws://{IP}:8080/basta/"), CancellationToken.None);
             webSocket = cliente;
 
-            // RecibirComando();
+            RecibirComando();
         }
         // CUANDO RECIBE UNA CONEXIÓN CON EL CLIENTE
         private async void OnContext(IAsyncResult ar)
@@ -85,7 +85,7 @@ namespace JuegoBasta
                 CambiarMensaje("Conexión exitosa. Esperando información del contrincante.");
                 EnviarComando(new DatoEnviado { Comando = Comando.NombreEnviado, Dato = Jugador1 });
 
-                // RecibirComando();
+                RecibirComando();
 
             }
             else
@@ -150,6 +150,83 @@ namespace JuegoBasta
             await webSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
+        JuegoBastaWindow ventanaJuego;
+        private async void RecibirComando()
+        {
+            try
+            {
+                byte[] buffer = new byte[1024];
+                while (webSocket.State == WebSocketState.Open)
+                {
+                    var resultado = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    string datosrecibidos = Encoding.UTF8.GetString(buffer, 0, resultado.Count);
+                    var comandorecibido = JsonConvert.DeserializeObject<DatoEnviado>(datosrecibidos);
+
+                    if (cliente != null)
+                    {
+                        switch (comandorecibido.Comando)
+                        {
+                            case Comando.NombreEnviado:
+                                Jugador1 = (string)comandorecibido.Dato;
+                                CambiarMensaje("Se ha conectado con el jugador " + Jugador1);
+                                _ = currentDispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    EnviarComando(new DatoEnviado { Comando=Comando.NombreEnviado, Dato=Jugador2});
+                                    lobby.Hide();
+
+                                    ventanaJuego = new JuegoBastaWindow();
+                                    ventanaJuego.Title = "Cliente";
+                                    ventanaJuego.DataContext = this;
+
+                                    CambiarMensaje("Inicie juego");
+                                    ventanaJuego.ShowDialog();
+                                    lobby.Show();
+
+                                }));
+
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (comandorecibido.Comando)
+                        {
+                            case Comando.NombreEnviado:
+                                Jugador2 = (string)comandorecibido.Dato;
+                                CambiarMensaje("Se ha conectado con el jugador " + Jugador2);
+
+                                _ = currentDispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    lobby.Hide();
+                                    JuegoBastaWindow ventanaJuego = new JuegoBastaWindow();
+                                    ventanaJuego.Title = "Servidor";
+                                    ventanaJuego.DataContext = this;
+                                    CambiarMensaje("Inicie juego");
+                                    ventanaJuego.ShowDialog();
+                                    lobby.Show();
+                                }));
+
+                                break;
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                if (webSocket.State == WebSocketState.Aborted)
+                {
+                    lobby.Close();
+                    MainVisible = true;
+                    ActualizarValor("MainVisible");
+                }
+                else
+                {
+                    CambiarMensaje(ex.Message);
+                }
+            }
+
+        }
     }
     public class DatoEnviado
     {
