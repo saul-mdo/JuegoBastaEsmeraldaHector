@@ -15,7 +15,7 @@ using System.Windows.Threading;
 
 namespace JuegoBasta
 {
-    public enum Comando { NombreEnviado }
+    public enum Comando { NombreEnviado, JugadaEnviada }
     public class Juego : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -40,6 +40,27 @@ namespace JuegoBasta
         public string Mensaje { get; set; }
         public bool MainVisible { get; set; } = true;
         public ICommand IniciarCommand { get; set; }
+        public ICommand JugarCommand { get; set; }
+        public int PuntajeJugador1 { get; set; } = 0;
+        public int PuntajeJugador2 { get; set; } = 0;
+        Random r = new Random();
+      
+        public char Letra { get; set; }
+
+        // PROPIEDADES RESPUESTAS
+        public string Nombre1 { get; set; }
+        public string Nombre2 { get; set; }
+        public string Lugar1 { get; set; }
+        public string Lugar2 { get; set; }
+        public string Animal1 { get; set; }
+        public string Animal2 { get; set; }
+        public string Color1 { get; set; }
+        public string Color2 { get; set; }
+        public string Comida1 { get; set; }
+        public string Comida2 { get; set; }
+
+        public List<string> RespuestaJugador1 { get; set; }
+        public List<string> RespuestaJugador2 { get; set; }
 
         HttpListener servidor;
         ClientWebSocket cliente;
@@ -50,8 +71,43 @@ namespace JuegoBasta
         {
             currentDispatcher = Dispatcher.CurrentDispatcher;
             IniciarCommand = new RelayCommand<bool>(IniciarPartida);
+            JugarCommand = new RelayCommand<string>(Jugar);
+            ElegirLetra();
+
         }
 
+        private void Jugar(string obj)
+        {
+            if (cliente != null)
+            {
+                 List<string> respuestas1 = new List<string>();
+
+                respuestas1.Add(Nombre1);
+                respuestas1.Add(Lugar1); 
+                respuestas1.Add(Color1); 
+                respuestas1.Add(Comida1); 
+                respuestas1.Add(Animal1); 
+
+                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = respuestas1 });
+            }
+            else
+            {
+                List<string> respuestas2 = new List<string>();
+
+                respuestas2.Add(Nombre2); 
+                respuestas2.Add(Lugar2); 
+                respuestas2.Add(Color2);
+                respuestas2.Add(Comida2); 
+                respuestas2.Add(Animal2); 
+
+                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = respuestas2 });
+            }
+        }
+
+        public void ElegirLetra()
+        {
+            Letra = (char)r.Next('a', 'z');
+        }
 
         // SI CREA PARTIDA SE INICIA COMO SERVIDOR
         public void CrearPartida()
@@ -159,6 +215,13 @@ namespace JuegoBasta
                 while (webSocket.State == WebSocketState.Open)
                 {
                     var resultado = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+                    if (resultado.MessageType == WebSocketMessageType.Close)
+                    {
+                        ventanaJuego.Close();
+                        return;
+                    }
+
                     string datosrecibidos = Encoding.UTF8.GetString(buffer, 0, resultado.Count);
                     var comandorecibido = JsonConvert.DeserializeObject<DatoEnviado>(datosrecibidos);
 
@@ -185,6 +248,10 @@ namespace JuegoBasta
                                 }));
 
                                 break;
+                            case Comando.JugadaEnviada:
+                                RespuestaJugador1 = (List<string>)comandorecibido.Dato;
+
+                                break;
                         }
                     }
                     else
@@ -205,11 +272,12 @@ namespace JuegoBasta
                                     ventanaJuego.ShowDialog();
                                     lobby.Show();
                                 }));
-
+                                break;
+                            case Comando.JugadaEnviada:
+                                RespuestaJugador2 = (List<string>)comandorecibido.Dato;
                                 break;
                         }
                     }
-
                 }
             }
             catch (Exception ex)
@@ -217,6 +285,7 @@ namespace JuegoBasta
                 if (webSocket.State == WebSocketState.Aborted)
                 {
                     lobby.Close();
+                    ventanaJuego.Close();
                     MainVisible = true;
                     ActualizarValor("MainVisible");
                 }

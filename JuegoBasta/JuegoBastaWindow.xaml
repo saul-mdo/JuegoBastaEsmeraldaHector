@@ -7,17 +7,26 @@
         mc:Ignorable="d"
         Title="JuegoBastaWindow" Height="450" Width="800">
     <DockPanel>
+        <TextBlock HorizontalAlignment="Center" DockPanel.Dock="Top" Text="{Binding Letra}"></TextBlock>
         <TextBlock FontFamily="Century Gothic" FontSize="20" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Text="{Binding Mensaje}"></TextBlock>
         <Border Margin="10" Padding="5" BorderBrush="Red" BorderThickness="2" DockPanel.Dock="Left">
-            <TextBlock HorizontalAlignment="Center" FontSize="20" Margin="5" Text="{Binding Jugador1}"/>
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Center" FontSize="20" Margin="5" Text="{Binding Jugador1}"/>
+                <TextBlock Text="{Binding PuntajeJugador1}"></TextBlock>
+            </StackPanel>
         </Border>
 
         <Border Margin="10" Padding="5" BorderBrush="Red" BorderThickness="2" DockPanel.Dock="Right">
-            <TextBlock Margin="5" HorizontalAlignment="Center" FontSize="20" Text="{Binding Jugador2}"/>
+            <StackPanel>
+                <TextBlock Margin="5" HorizontalAlignment="Center" FontSize="20" Text="{Binding Jugador2}"/>
+                <TextBlock Text="{Binding PuntajeJugador2}"></TextBlock>
+            </StackPanel>
         </Border>
-        <Grid>
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">TABLERO JUEGO</TextBlock>
-        </Grid>
+        
+        <StackPanel>
+            <DataGrid ItemsSource="{Binding RespuestaJugador1}" Height="200"></DataGrid>
+            <DataGrid ItemsSource="{Binding RespuestaJugador2}" Height="200"></DataGrid>
+        </StackPanel>
 
     </DockPanel>
 </Window>
