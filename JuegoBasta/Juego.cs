@@ -47,18 +47,6 @@ namespace JuegoBasta
       
         public char Letra { get; set; }
 
-        // PROPIEDADES RESPUESTAS
-        public string Nombre1 { get; set; }
-        public string Nombre2 { get; set; }
-        public string Lugar1 { get; set; }
-        public string Lugar2 { get; set; }
-        public string Animal1 { get; set; }
-        public string Animal2 { get; set; }
-        public string Color1 { get; set; }
-        public string Color2 { get; set; }
-        public string Comida1 { get; set; }
-        public string Comida2 { get; set; }
-
         public List<string> RespuestaJugador1 { get; set; }
         public List<string> RespuestaJugador2 { get; set; }
 
@@ -74,34 +62,6 @@ namespace JuegoBasta
             JugarCommand = new RelayCommand<string>(Jugar);
             ElegirLetra();
 
-        }
-
-        private void Jugar(string obj)
-        {
-            if (cliente != null)
-            {
-                 List<string> respuestas1 = new List<string>();
-
-                respuestas1.Add(Nombre1);
-                respuestas1.Add(Lugar1); 
-                respuestas1.Add(Color1); 
-                respuestas1.Add(Comida1); 
-                respuestas1.Add(Animal1); 
-
-                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = respuestas1 });
-            }
-            else
-            {
-                List<string> respuestas2 = new List<string>();
-
-                respuestas2.Add(Nombre2); 
-                respuestas2.Add(Lugar2); 
-                respuestas2.Add(Color2);
-                respuestas2.Add(Comida2); 
-                respuestas2.Add(Animal2); 
-
-                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = respuestas2 });
-            }
         }
 
         public void ElegirLetra()
@@ -295,6 +255,26 @@ namespace JuegoBasta
                 }
             }
 
+        }
+        private void Jugar(string obj)
+        {
+            if (cliente != null)
+            {
+                List<Respuestas> respuestas1 = new List<Respuestas>();
+
+                Respuestas resp = new Respuestas() { Animal = "perro", Color = "plateado", Comida = "plato de taquitos", Lugar = "Peru", Nombre = "Pedro" };
+                respuestas1.Add(resp);
+
+                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = respuestas1 });
+            }
+            else
+            {
+                List<Respuestas> respuestas2 = new List<Respuestas>();
+
+                Respuestas resp = new Respuestas() { Animal = "gato", Color = "gris", Comida = "garbanzos", Lugar = "guanajuato", Nombre = "Pedro" };
+                respuestas2.Add(resp);
+                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = respuestas2 });
+            }
         }
     }
     public class DatoEnviado
