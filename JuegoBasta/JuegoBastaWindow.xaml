@@ -24,8 +24,25 @@
         </Border>
         
         <StackPanel>
-            <DataGrid ItemsSource="{Binding RespuestaJugador1}" Height="200"></DataGrid>
-            <DataGrid ItemsSource="{Binding RespuestaJugador2}" Height="200"></DataGrid>
+            <DataGrid ItemsSource="{Binding RespuestaJugador1}" Height="200">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width=".2*" Header="Nombre"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Lugar"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Animal"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Color"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Comida"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding RespuestaJugador2}" Height="200">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width=".2*" Header="Nombre"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Lugar"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Animal"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Color"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Comida"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Comida"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
 
     </DockPanel>
