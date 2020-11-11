@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:JuegoBasta"
         mc:Ignorable="d"
         Title="Basta" Height="320" Width="500">
-    
+    <Window.Background>
+        <ImageBrush ImageSource="/images/fondo.png"></ImageBrush>
+    </Window.Background>
     <Window.DataContext>
         <local:Juego></local:Juego>
     </Window.DataContext>

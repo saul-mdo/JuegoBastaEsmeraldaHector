@@ -213,8 +213,9 @@ namespace JuegoBasta
                             case Comando.JugadaEnviada:
                                 currentDispatcher.Invoke(new Action(() =>
                                 {
-                                    RespuestaJugador1 = (List<Respuestas>)(object)comandorecibido.Dato;
-                                    
+                                    RespuestaJugador1 = ((JArray)comandorecibido.Dato).ToObject<List<Respuestas>>();
+                                    CambiarMensaje("Respuesta enviada");
+                                    ActualizarValor();
                                 }));
                                 break;
                             //case Comando.LetraEnviada:
@@ -243,8 +244,10 @@ namespace JuegoBasta
                                 break;
                             case Comando.JugadaEnviada:
                                 currentDispatcher.Invoke(new Action(() =>
-                                {
-                                    RespuestaJugador2 = (List<Respuestas>)(object)comandorecibido.Dato;
+                                {                                    
+                                    RespuestaJugador2 = ((JArray)comandorecibido.Dato).ToObject<List<Respuestas>>();
+                                    CambiarMensaje("Respuesta enviada");
+                                    ActualizarValor();
                                 }));
                                 break;
                             //case Comando.LetraEnviada:
@@ -270,16 +273,17 @@ namespace JuegoBasta
             }
 
         }
-        public Respuestas respuestas { get; set; }
-        public Respuestas respuestas2 { get; set; }
+        public Respuestas respuestas { get; set; } 
+        public Respuestas respuestas2 { get; set; } 
         private void Jugar(string obj)
         {
             if (cliente != null)
             {
                 List<Respuestas> lstrespuestas1 = new List<Respuestas>();
 
-                respuestas = new Respuestas() { Animal = "perro", Color = "plata", Comida = "plato", Lugar = "Plaza", Nombre = "Pedro" };
-
+                respuestas = new Respuestas();
+                
+                //ventanaJuego.DataContext = respuestas;
                 lstrespuestas1.Add(respuestas);
 
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = lstrespuestas1 });
@@ -288,12 +292,13 @@ namespace JuegoBasta
             else
             {
                 List<Respuestas> lstrespuestas2 = new List<Respuestas>();
-                respuestas2 = new Respuestas() { Animal = "perro", Color = "plata", Comida = "plato", Lugar = "Plaza", Nombre = "Pedro" };
-
+                respuestas2 = new Respuestas() ;
+                
+                //ventanaJuego.DataContext = respuestas2;
                 lstrespuestas2.Add(respuestas2);
 
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = lstrespuestas2 });
-                respuestas2 = null;
+                
             }
         }
     }
