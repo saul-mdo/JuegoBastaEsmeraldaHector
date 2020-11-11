@@ -25,22 +25,35 @@
         </Border>
         
         <StackPanel>
-            <DataGrid ItemsSource="{Binding RespuestaJugador1}" Height="200">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Width=".2*" Header="Nombre" Binding="{Binding Nombre}"></DataGridTextColumn>
-                    <DataGridTextColumn Width=".2*" Header="Lugar" Binding="{Binding Lugar}"></DataGridTextColumn>
-                    <DataGridTextColumn Width=".2*" Header="Animal" Binding="{Binding Animal}"></DataGridTextColumn>
-                    <DataGridTextColumn Width=".2*" Header="Color" Binding="{Binding Color}"></DataGridTextColumn>
-                    <DataGridTextColumn Width=".2*" Header="Comida" Binding="{Binding Comida}"></DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+            <StackPanel>
+                <GroupBox DataContext="respuestas">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="50" Margin="5" Text="{Binding respuestas.Nombre}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding respuestas.Lugar}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding respuestas.Animal}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding respuestas.Color}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding respuestas.Comida}"></TextBox>
+                    </StackPanel>
+                </GroupBox>
+                <DataGrid ItemsSource="{Binding RespuestaJugador1}" Height="200">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width=".2*" Header="Nombre" Binding="{Binding Nombre}"></DataGridTextColumn>
+                        <DataGridTextColumn Width=".2*" Header="Lugar" Binding="{Binding Lugar}"></DataGridTextColumn>
+                        <DataGridTextColumn Width=".2*" Header="Animal" Binding="{Binding Animal}"></DataGridTextColumn>
+                        <DataGridTextColumn Width=".2*" Header="Color" Binding="{Binding Color}"></DataGridTextColumn>
+                        <DataGridTextColumn Width=".2*" Header="Comida" Binding="{Binding Comida}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </StackPanel>
+            
             <DataGrid ItemsSource="{Binding RespuestaJugador2}" Height="200">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width=".2*" Header="Nombre" Binding="{Binding Nombre}"></DataGridTextColumn>
-                    <DataGridTextColumn Width=".2*" Header="Lugar" Binding="{Binding Lugar}"></DataGridTextColumn>
-                    <DataGridTextColumn Width=".2*" Header="Animal" Binding="{Binding Animal}"></DataGridTextColumn>
-                    <DataGridTextColumn Width=".2*" Header="Color" Binding="{Binding Color}"></DataGridTextColumn>
-                    <DataGridTextColumn Width=".2*" Header="Comida" Binding="{Binding Comida}"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Nombre" Binding="{Binding respuestas2.Nombre}"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Lugar" Binding="{Binding respuestas2.Lugar}"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Animal" Binding="{Binding respuestas2.Animal}"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Color" Binding="{Binding respuestas2.Color}"></DataGridTextColumn>
+                    <DataGridTextColumn Width=".2*" Header="Comida" Binding="{Binding respuestas2.Comida}"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

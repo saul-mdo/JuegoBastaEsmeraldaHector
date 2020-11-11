@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -49,8 +50,8 @@ namespace JuegoBasta
 
         public char Letra { get; set; }
 
-        public List<string> RespuestaJugador1 { get; set; }
-        public List<string> RespuestaJugador2 { get; set; }
+        public List<Respuestas> RespuestaJugador1 { get; set; }
+        public List<Respuestas> RespuestaJugador2 { get; set; }
 
         HttpListener servidor;
         ClientWebSocket cliente;
@@ -86,7 +87,6 @@ namespace JuegoBasta
             cliente = new ClientWebSocket();
             await cliente.ConnectAsync(new Uri($"ws://{IP}:8080/basta/"), CancellationToken.None);
             webSocket = cliente;
-            RecibirComando();
             RecibirComando();
         }
         // CUANDO RECIBE UNA CONEXIÓN CON EL CLIENTE
@@ -211,12 +211,15 @@ namespace JuegoBasta
 
                                 break;
                             case Comando.JugadaEnviada:
-                                RespuestaJugador1 = (List<string>)comandorecibido.Dato;
-
+                                currentDispatcher.Invoke(new Action(() =>
+                                {
+                                    RespuestaJugador1 = (List<Respuestas>)(object)comandorecibido.Dato;
+                                    
+                                }));
                                 break;
-                            case Comando.LetraEnviada:
-                                Letra = (char)comandorecibido.Dato;
-                                break;
+                            //case Comando.LetraEnviada:
+                            //    Letra = (char)comandorecibido.Dato;
+                            //    break;
                         }
                     }
                     else
@@ -239,11 +242,14 @@ namespace JuegoBasta
                                 }));
                                 break;
                             case Comando.JugadaEnviada:
-                                RespuestaJugador2 = (List<string>)comandorecibido.Dato;
+                                currentDispatcher.Invoke(new Action(() =>
+                                {
+                                    RespuestaJugador2 = (List<Respuestas>)(object)comandorecibido.Dato;
+                                }));
                                 break;
-                            case Comando.LetraEnviada:
-                                Letra = (char)comandorecibido.Dato;
-                                break;
+                            //case Comando.LetraEnviada:
+                            //    Letra = (char)comandorecibido.Dato;
+                            //    break;
                         }
                     }
                 }
@@ -264,19 +270,30 @@ namespace JuegoBasta
             }
 
         }
+        public Respuestas respuestas { get; set; }
+        public Respuestas respuestas2 { get; set; }
         private void Jugar(string obj)
         {
             if (cliente != null)
             {
-                List<Respuestas> respuestas1 = new List<Respuestas>();
+                List<Respuestas> lstrespuestas1 = new List<Respuestas>();
 
-                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = respuestas1 });
+                respuestas = new Respuestas() { Animal = "perro", Color = "plata", Comida = "plato", Lugar = "Plaza", Nombre = "Pedro" };
+
+                lstrespuestas1.Add(respuestas);
+
+                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = lstrespuestas1 });
+                respuestas = null;
             }
             else
             {
-                List<Respuestas> respuestas2 = new List<Respuestas>();
+                List<Respuestas> lstrespuestas2 = new List<Respuestas>();
+                respuestas2 = new Respuestas() { Animal = "perro", Color = "plata", Comida = "plato", Lugar = "Plaza", Nombre = "Pedro" };
 
-                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = respuestas2 });
+                lstrespuestas2.Add(respuestas2);
+
+                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = lstrespuestas2 });
+                respuestas2 = null;
             }
         }
     }
