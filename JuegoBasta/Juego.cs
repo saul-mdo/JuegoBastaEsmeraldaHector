@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.WebSockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ using System.Windows.Threading;
 
 namespace JuegoBasta
 {
-    public enum Comando { NombreEnviado, JugadaEnviada }
+    public enum Comando { NombreEnviado, LetraEnviada, JugadaEnviada }
     public class Juego : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -44,7 +45,8 @@ namespace JuegoBasta
         public int PuntajeJugador1 { get; set; } = 0;
         public int PuntajeJugador2 { get; set; } = 0;
         Random r = new Random();
-      
+
+
         public char Letra { get; set; }
 
         public List<string> RespuestaJugador1 { get; set; }
@@ -60,13 +62,11 @@ namespace JuegoBasta
             currentDispatcher = Dispatcher.CurrentDispatcher;
             IniciarCommand = new RelayCommand<bool>(IniciarPartida);
             JugarCommand = new RelayCommand<string>(Jugar);
-            ElegirLetra();
-
         }
-
-        public void ElegirLetra()
+        public char temporaLetra { get; set; }
+        public char ElegirLetra()
         {
-            Letra = (char)r.Next('a', 'z');
+            return (char)r.Next('a', 'z');
         }
 
         // SI CREA PARTIDA SE INICIA COMO SERVIDOR
@@ -86,7 +86,7 @@ namespace JuegoBasta
             cliente = new ClientWebSocket();
             await cliente.ConnectAsync(new Uri($"ws://{IP}:8080/basta/"), CancellationToken.None);
             webSocket = cliente;
-
+            RecibirComando();
             RecibirComando();
         }
         // CUANDO RECIBE UNA CONEXIÓN CON EL CLIENTE
@@ -100,6 +100,8 @@ namespace JuegoBasta
                 webSocket = listener.WebSocket;
                 CambiarMensaje("Conexión exitosa. Esperando información del contrincante.");
                 EnviarComando(new DatoEnviado { Comando = Comando.NombreEnviado, Dato = Jugador1 });
+                //Letra = ElegirLetra();
+                //EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, Dato = Letra });
 
                 RecibirComando();
 
@@ -194,7 +196,7 @@ namespace JuegoBasta
                                 CambiarMensaje("Se ha conectado con el jugador " + Jugador1);
                                 _ = currentDispatcher.BeginInvoke(new Action(() =>
                                 {
-                                    EnviarComando(new DatoEnviado { Comando=Comando.NombreEnviado, Dato=Jugador2});
+                                    EnviarComando(new DatoEnviado { Comando = Comando.NombreEnviado, Dato = Jugador2 });
                                     lobby.Hide();
 
                                     ventanaJuego = new JuegoBastaWindow();
@@ -211,6 +213,9 @@ namespace JuegoBasta
                             case Comando.JugadaEnviada:
                                 RespuestaJugador1 = (List<string>)comandorecibido.Dato;
 
+                                break;
+                            case Comando.LetraEnviada:
+                                Letra = (char)comandorecibido.Dato;
                                 break;
                         }
                     }
@@ -235,6 +240,9 @@ namespace JuegoBasta
                                 break;
                             case Comando.JugadaEnviada:
                                 RespuestaJugador2 = (List<string>)comandorecibido.Dato;
+                                break;
+                            case Comando.LetraEnviada:
+                                Letra = (char)comandorecibido.Dato;
                                 break;
                         }
                     }
@@ -262,17 +270,12 @@ namespace JuegoBasta
             {
                 List<Respuestas> respuestas1 = new List<Respuestas>();
 
-                Respuestas resp = new Respuestas() { Animal = "perro", Color = "plateado", Comida = "plato de taquitos", Lugar = "Peru", Nombre = "Pedro" };
-                respuestas1.Add(resp);
-
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = respuestas1 });
             }
             else
             {
                 List<Respuestas> respuestas2 = new List<Respuestas>();
 
-                Respuestas resp = new Respuestas() { Animal = "gato", Color = "gris", Comida = "garbanzos", Lugar = "guanajuato", Nombre = "Pedro" };
-                respuestas2.Add(resp);
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = respuestas2 });
             }
         }
