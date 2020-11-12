@@ -237,6 +237,7 @@ namespace JuegoBasta
                                     JuegoBastaWindow ventanaJuego = new JuegoBastaWindow();
                                     ventanaJuego.Title = "Servidor";
                                     ventanaJuego.DataContext = this;
+
                                     CambiarMensaje("Inicie juego");
                                     ventanaJuego.ShowDialog();
                                     lobby.Show();
@@ -261,8 +262,8 @@ namespace JuegoBasta
             {
                 if (webSocket.State == WebSocketState.Aborted)
                 {
-                    lobby.Close();
                     ventanaJuego.Close();
+                    lobby.Close();
                     MainVisible = true;
                     ActualizarValor("MainVisible");
                 }
@@ -281,6 +282,7 @@ namespace JuegoBasta
             {
                 List<Respuestas> lstrespuestas1 = new List<Respuestas>();
 
+
                 respuestas = new Respuestas();
                 
                 //ventanaJuego.DataContext = respuestas;
@@ -293,7 +295,7 @@ namespace JuegoBasta
             {
                 List<Respuestas> lstrespuestas2 = new List<Respuestas>();
                 respuestas2 = new Respuestas() ;
-                
+
                 //ventanaJuego.DataContext = respuestas2;
                 lstrespuestas2.Add(respuestas2);
 
