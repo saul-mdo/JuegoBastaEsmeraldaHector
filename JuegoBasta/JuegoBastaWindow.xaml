@@ -8,7 +8,7 @@
         Title="JuegoBastaWindow" Height="450" Width="800">
     
     <DockPanel>
-        <Button Command="{Binding JugarCommand}" DockPanel.Dock="Bottom" Width="200" Margin="5">BASTA</Button>
+        <Button Command="{Binding JugarCommand}" CommandParameter="{Binding }" DockPanel.Dock="Bottom" Width="200" Margin="5">BASTA</Button>
         <TextBlock HorizontalAlignment="Center" DockPanel.Dock="Top" Text="{Binding Letra}"></TextBlock>
         <TextBlock FontFamily="Century Gothic" FontSize="20" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Text="{Binding Mensaje}"></TextBlock>
         <Border Margin="10" Padding="5" BorderBrush="Red" BorderThickness="2" DockPanel.Dock="Left">

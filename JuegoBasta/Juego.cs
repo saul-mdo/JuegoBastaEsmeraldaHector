@@ -64,7 +64,7 @@ namespace JuegoBasta
             IniciarCommand = new RelayCommand<bool>(IniciarPartida);
             JugarCommand = new RelayCommand<string>(Jugar);
         }
-        public char temporaLetra { get; set; }
+        public char temporaLetra { get; set; } = 'a';
         public char ElegirLetra()
         {
             return (char)r.Next('a', 'z');
@@ -87,6 +87,7 @@ namespace JuegoBasta
             cliente = new ClientWebSocket();
             await cliente.ConnectAsync(new Uri($"ws://{IP}:8080/basta/"), CancellationToken.None);
             webSocket = cliente;
+            // EL CLIENTE RECIBE EL NOMBRE DEL SERVIDOR
             RecibirComando();
         }
         // CUANDO RECIBE UNA CONEXIÓN CON EL CLIENTE
@@ -99,12 +100,13 @@ namespace JuegoBasta
                 var listener = await context.AcceptWebSocketAsync(null);
                 webSocket = listener.WebSocket;
                 CambiarMensaje("Conexión exitosa. Esperando información del contrincante.");
+                // EL SERVIDOR ENVÍA SU NOMBRE
                 EnviarComando(new DatoEnviado { Comando = Comando.NombreEnviado, Dato = Jugador1 });
-                //Letra = ElegirLetra();
-                //EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, Dato = Letra });
-
+                // EL SERVIDOR RECIBE EL COMANDO, QUE SERÍA EL NOMBRE DEL CLIENTE.
                 RecibirComando();
 
+                Letra = ElegirLetra();
+                EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, Dato = Letra });
             }
             else
             {
@@ -115,7 +117,7 @@ namespace JuegoBasta
         }
 
         LobbyWindow lobby;
-        // CUANDO YA SE INICIÓ EL SERVIDOR Y EL CLIENTE
+        // CUANDO YA SE INICIÓ, PERO AÚN NO SE CONECTAN EL SERVIDOR Y EL CLIENTE
         private async void IniciarPartida(bool tipoP)
         {
             try
@@ -127,11 +129,12 @@ namespace JuegoBasta
                 lobby.Show();
                 ActualizarValor();
 
+                // SI ES SERVIDOR, CREA LA PARTIDA
                 if (tipoP == true)
                 {
                     CrearPartida();
                 }
-                else
+                else // SI ES CLIENTE
                 {
                     Jugador2 = Jugador1;
                     Jugador1 = null;
@@ -187,7 +190,9 @@ namespace JuegoBasta
                     string datosrecibidos = Encoding.UTF8.GetString(buffer, 0, resultado.Count);
                     var comandorecibido = JsonConvert.DeserializeObject<DatoEnviado>(datosrecibidos);
 
-                    if (cliente != null)
+                    // YA ESTÁN CONECTADOS EL CLIENTE Y EL SERVIDOR. SE ABRE LA VENTANA DEL JUEGO.
+
+                    if (cliente != null) // ES CLIENTE
                     {
                         switch (comandorecibido.Comando)
                         {
@@ -196,7 +201,11 @@ namespace JuegoBasta
                                 CambiarMensaje("Se ha conectado con el jugador " + Jugador1);
                                 _ = currentDispatcher.BeginInvoke(new Action(() =>
                                 {
+                                    // EL CLIENTE ENVÍA EL NOMBRE.
                                     EnviarComando(new DatoEnviado { Comando = Comando.NombreEnviado, Dato = Jugador2 });
+
+                                    // SE RECIBE LA LETRA
+                                    RecibirComando();
                                     lobby.Hide();
 
                                     ventanaJuego = new JuegoBastaWindow();
@@ -214,16 +223,19 @@ namespace JuegoBasta
                                 currentDispatcher.Invoke(new Action(() =>
                                 {
                                     RespuestaJugador1 = ((JArray)comandorecibido.Dato).ToObject<List<Respuestas>>();
-                                    CambiarMensaje("Respuesta enviada");
+                                    CambiarMensaje("Respuesta del servidor recibida");
                                     ActualizarValor();
                                 }));
                                 break;
-                            //case Comando.LetraEnviada:
-                            //    Letra = (char)comandorecibido.Dato;
-                            //    break;
+                            case Comando.LetraEnviada:
+                                // LETRA NO TOMA EL VALOR DE DATO
+                                Letra = ((JArray)comandorecibido.Dato).ToObject<char>();
+                                //Letra = (char)comandorecibido.Dato;
+                                ActualizarValor();
+                                break;
                         }
                     }
-                    else
+                    else // SERVIDOR
                     {
                         switch (comandorecibido.Comando)
                         {
@@ -251,9 +263,6 @@ namespace JuegoBasta
                                     ActualizarValor();
                                 }));
                                 break;
-                            //case Comando.LetraEnviada:
-                            //    Letra = (char)comandorecibido.Dato;
-                            //    break;
                         }
                     }
                 }
