@@ -55,6 +55,10 @@ namespace JuegoBasta
 
         public bool PuedeJugar { get; set; }
 
+        public string BotonCliente { get; set; } = "Hidden";
+        public string BotonServer {​​​​​​​ get; set; }​​​​​​​ = "Hidden";
+
+
         HttpListener servidor;
         ClientWebSocket cliente;
         Dispatcher currentDispatcher;
@@ -209,13 +213,12 @@ namespace JuegoBasta
 
                                     // SE RECIBE LA LETRA
                                     //RecibirComando();
-
+                                    BotonCliente = "Visible";
                                     ventanaJuego = new JuegoBastaWindow();
                                     ventanaJuego.Title = "Cliente";
                                     ventanaJuego.DataContext = this;
 
                                     PuedeJugar = true;
-
                                     CambiarMensaje("Inicie juego");
                                     ventanaJuego.ShowDialog();
                                     lobby.Show();
@@ -234,12 +237,12 @@ namespace JuegoBasta
 
 
 
-                            //case Comando.LetraEnviada:
-                            //    // LETRA NO TOMA EL VALOR DE DATO
-                            //    Letra = ((JArray)comandorecibido.Dato).ToObject<string>();
-                            //    //Letra = (char)comandorecibido.Dato;
-                            //    ActualizarValor();
-                            //    break;
+                                //case Comando.LetraEnviada:
+                                //    // LETRA NO TOMA EL VALOR DE DATO
+                                //    Letra = ((JArray)comandorecibido.Dato).ToObject<string>();
+                                //    //Letra = (char)comandorecibido.Dato;
+                                //    ActualizarValor();
+                                //    break;
                         }
                     }
                     else // SERVIDOR
@@ -253,6 +256,7 @@ namespace JuegoBasta
                                 _ = currentDispatcher.BeginInvoke(new Action(() =>
                                 {
                                     lobby.Hide();
+                                    BotonServer = "Visible";
                                     JuegoBastaWindow ventanaJuego = new JuegoBastaWindow();
                                     ventanaJuego.Title = "Servidor";
                                     ventanaJuego.DataContext = this;

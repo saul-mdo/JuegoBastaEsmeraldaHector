@@ -8,7 +8,33 @@
         Title="JuegoBastaWindow" Height="450" Width="800">
     
     <DockPanel>
-        <Button Command="{Binding JugarCommand}" CommandParameter="{Binding respuestas}" DockPanel.Dock="Bottom" Width="200" Margin="5">BASTA</Button>
+
+        <Grid DockPanel.Dock="Bottom">
+            <Button Command="{Binding JugarCommand}" CommandParameter="{Binding respuestas}"  Width="200" Margin="5" Content="BASTA">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Visibility" Value="Hidden"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding BotonServer}" Value="Visible" >
+                                <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Command="{Binding JugarCommand}" CommandParameter="{Binding respuestas2}"  Width="200" Margin="5" Content="BASTA" Background="Green">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Visibility" Value="Hidden"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding BotonCliente}" Value="Visible" >
+                                <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
         <TextBlock HorizontalAlignment="Center" DockPanel.Dock="Top" Text="{Binding Letra}"></TextBlock>
         <TextBlock FontFamily="Century Gothic" FontSize="20" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Text="{Binding Mensaje}"></TextBlock>
         <Border Margin="10" Padding="5" BorderBrush="Red" BorderThickness="2" DockPanel.Dock="Left">
