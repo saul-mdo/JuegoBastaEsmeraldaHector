@@ -53,7 +53,7 @@ namespace JuegoBasta
         public Respuestas RespuestaJugador1 { get; set; }
         public Respuestas RespuestaJugador2 { get; set; }
 
-        public bool PuedeJugar { get; set; } = true;
+        public bool PuedeJugar { get; set; }
 
         HttpListener servidor;
         ClientWebSocket cliente;
@@ -227,10 +227,8 @@ namespace JuegoBasta
                             case Comando.JugadaEnviada:
                                 currentDispatcher.Invoke(new Action(() =>
                                 {
-                                    RespuestaJugador1 = ((JArray)comandorecibido.Dato).ToObject<Respuestas>();
-                                    //RespuestaJugador1 = (Respuestas)comandorecibido.Dato;
-                                    CambiarMensaje("Respuesta del servidor recibida");
-                                    ActualizarValor();
+                                    RespuestaJugador1 = (Respuestas)comandorecibido.Dato;
+                                    CambiarMensaje("Respuestas recibidas");
                                 }));
                                 break;
 
@@ -258,7 +256,7 @@ namespace JuegoBasta
                                     JuegoBastaWindow ventanaJuego = new JuegoBastaWindow();
                                     ventanaJuego.Title = "Servidor";
                                     ventanaJuego.DataContext = this;
-
+                                    PuedeJugar = true;
                                     CambiarMensaje("Inicie juego");
                                     ventanaJuego.ShowDialog();
                                     lobby.Show();
@@ -268,9 +266,8 @@ namespace JuegoBasta
                             case Comando.JugadaEnviada:
                                 currentDispatcher.Invoke(new Action(() =>
                                 {
-                                    RespuestaJugador2 = ((JArray)comandorecibido.Dato).ToObject<Respuestas>();
-                                    CambiarMensaje("Respuesta enviada");
-                                    ActualizarValor();
+                                    RespuestaJugador2 = (Respuestas)comandorecibido.Dato;
+                                    CambiarMensaje("Respuestas recibidas");
                                 }));
                                 break;
                         }
@@ -299,24 +296,16 @@ namespace JuegoBasta
         {
             if (cliente != null)
             {
-                //List<Respuestas> lstrespuestas1 = new List<Respuestas>();
-                //respuestas = obj;
-                ////ventanaJuego.DataContext = respuestas;
-                //lstrespuestas1.Add(respuestas);
+                RespuestaJugador2 = obj;
 
-                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = obj });
+                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = RespuestaJugador2 });
                 PuedeJugar = false;
                 CambiarMensaje("¡BASTA!");
             }
             else
             {
-                //List<Respuestas> lstrespuestas2 = new List<Respuestas>();
-                //respuestas2 = new Respuestas();
-                //respuestas2 = obj;
-                ////ventanaJuego.DataContext = respuestas2;
-                //lstrespuestas2.Add(respuestas2);
-
-                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = obj });
+                RespuestaJugador1 = obj;
+                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = RespuestaJugador1 });
                 PuedeJugar = false;
                 CambiarMensaje("¡BASTA!");
             }
@@ -326,6 +315,7 @@ namespace JuegoBasta
         {
             if (r.Nombre.StartsWith(Letra.ToString()) && r.Color.StartsWith(Letra.ToString()) && r.Lugar.StartsWith(Letra.ToString()) && r.Animal.StartsWith(Letra.ToString()) && r.Comida.StartsWith(Letra.ToString()))
             {
+
                 return true;
             }
             else
