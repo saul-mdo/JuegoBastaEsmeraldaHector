@@ -55,8 +55,7 @@ namespace JuegoBasta
 
         public bool PuedeJugar { get; set; }
 
-        public string BotonCliente { get; set; } = "Hidden";
-        public string BotonServer {​​​​​​​ get; set; }​​​​​​​ = "Hidden";
+       
 
 
         HttpListener servidor;
@@ -178,6 +177,8 @@ namespace JuegoBasta
         }
 
         JuegoBastaWindow ventanaJuego;
+        public string BotonCliente { get; set; } = "Hidden";
+        public string BotonServer { get; set; } = "Hidden";
         private async void RecibirComando()
         {
             try
