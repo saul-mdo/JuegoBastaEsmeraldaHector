@@ -203,10 +203,10 @@ namespace JuegoBasta
                                 {
                                     // EL CLIENTE ENVÍA EL NOMBRE.
                                     EnviarComando(new DatoEnviado { Comando = Comando.NombreEnviado, Dato = Jugador2 });
+                                    lobby.Hide();
 
                                     // SE RECIBE LA LETRA
                                     RecibirComando();
-                                    lobby.Hide();
 
                                     ventanaJuego = new JuegoBastaWindow();
                                     ventanaJuego.Title = "Cliente";
@@ -219,6 +219,7 @@ namespace JuegoBasta
                                 }));
 
                                 break;
+
                             case Comando.JugadaEnviada:
                                 currentDispatcher.Invoke(new Action(() =>
                                 {
@@ -227,6 +228,10 @@ namespace JuegoBasta
                                     ActualizarValor();
                                 }));
                                 break;
+
+
+
+
                             case Comando.LetraEnviada:
                                 // LETRA NO TOMA EL VALOR DE DATO
                                 Letra = ((JArray)comandorecibido.Dato).ToObject<char>();
@@ -255,6 +260,7 @@ namespace JuegoBasta
                                     lobby.Show();
                                 }));
                                 break;
+
                             case Comando.JugadaEnviada:
                                 currentDispatcher.Invoke(new Action(() =>
                                 {                                    
@@ -293,7 +299,7 @@ namespace JuegoBasta
 
 
                 respuestas = new Respuestas();
-                
+                respuestas.Nombre = obj;
                 //ventanaJuego.DataContext = respuestas;
                 lstrespuestas1.Add(respuestas);
 
@@ -304,7 +310,7 @@ namespace JuegoBasta
             {
                 List<Respuestas> lstrespuestas2 = new List<Respuestas>();
                 respuestas2 = new Respuestas() ;
-
+                respuestas2.Nombre = obj;
                 //ventanaJuego.DataContext = respuestas2;
                 lstrespuestas2.Add(respuestas2);
 
