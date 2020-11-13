@@ -8,7 +8,7 @@
         Title="JuegoBastaWindow" Height="450" Width="800">
     
     <DockPanel>
-        <Button Command="{Binding JugarCommand}" CommandParameter="{Binding ElementName=txt, Path=Text}" DockPanel.Dock="Bottom" Width="200" Margin="5">BASTA</Button>
+        <Button Command="{Binding JugarCommand}" CommandParameter="{Binding respuestas}" DockPanel.Dock="Bottom" Width="200" Margin="5">BASTA</Button>
         <TextBlock HorizontalAlignment="Center" DockPanel.Dock="Top" Text="{Binding Letra}"></TextBlock>
         <TextBlock FontFamily="Century Gothic" FontSize="20" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Text="{Binding Mensaje}"></TextBlock>
         <Border Margin="10" Padding="5" BorderBrush="Red" BorderThickness="2" DockPanel.Dock="Left">
@@ -28,14 +28,20 @@
         <StackPanel>
             <StackPanel >
                 <GroupBox>
+                    <GroupBox.Style>
+                        <Style TargetType="GroupBox">
+                            <Setter Property="IsEnabled" Value="{Binding PuedeJugar}"></Setter>
+                        </Style>
+                    </GroupBox.Style>
                     <StackPanel Orientation="Horizontal" >
-                        <TextBox Name="txt" Width="50" Margin="5" Text="{Binding respuestas.Nombre}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding respuestas.Nombre}"></TextBox>
                         <TextBox Width="50" Margin="5" Text="{Binding respuestas.Lugar}"></TextBox>
                         <TextBox Width="50" Margin="5" Text="{Binding respuestas.Animal}"></TextBox>
                         <TextBox Width="50" Margin="5" Text="{Binding respuestas.Color}"></TextBox>
                         <TextBox Width="50" Margin="5" Text="{Binding respuestas.Comida}"></TextBox>
                     </StackPanel>
                 </GroupBox>
+                
                 <DataGrid ItemsSource="{Binding RespuestaJugador1}" Height="200" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Width=".2*" Header="Nombre" Binding="{Binding Nombre}"></DataGridTextColumn>

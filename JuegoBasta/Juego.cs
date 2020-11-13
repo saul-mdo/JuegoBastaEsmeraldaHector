@@ -48,10 +48,12 @@ namespace JuegoBasta
         Random r = new Random();
 
 
-        public char Letra { get; set; }
+        public string Letra { get; set; }
 
         public List<Respuestas> RespuestaJugador1 { get; set; }
         public List<Respuestas> RespuestaJugador2 { get; set; }
+
+        public bool PuedeJugar { get; set; }
 
         HttpListener servidor;
         ClientWebSocket cliente;
@@ -62,12 +64,12 @@ namespace JuegoBasta
         {
             currentDispatcher = Dispatcher.CurrentDispatcher;
             IniciarCommand = new RelayCommand<bool>(IniciarPartida);
-            JugarCommand = new RelayCommand<string>(Jugar);
+            JugarCommand = new RelayCommand<Respuestas>(Jugar);
         }
         public char temporaLetra { get; set; } = 'a';
-        public char ElegirLetra()
+        public string ElegirLetra()
         {
-            return (char)r.Next('a', 'z');
+            return r.Next('a', 'z').ToString();
         }
 
         // SI CREA PARTIDA SE INICIA COMO SERVIDOR
@@ -212,6 +214,8 @@ namespace JuegoBasta
                                     ventanaJuego.Title = "Cliente";
                                     ventanaJuego.DataContext = this;
 
+                                    PuedeJugar = true;
+
                                     CambiarMensaje("Inicie juego");
                                     ventanaJuego.ShowDialog();
                                     lobby.Show();
@@ -234,7 +238,7 @@ namespace JuegoBasta
 
                             case Comando.LetraEnviada:
                                 // LETRA NO TOMA EL VALOR DE DATO
-                                Letra = ((JArray)comandorecibido.Dato).ToObject<char>();
+                                Letra = ((JArray)comandorecibido.Dato).ToObject<string>();
                                 //Letra = (char)comandorecibido.Dato;
                                 ActualizarValor();
                                 break;
@@ -291,7 +295,7 @@ namespace JuegoBasta
         }
         public Respuestas respuestas { get; set; } 
         public Respuestas respuestas2 { get; set; } 
-        private void Jugar(string obj)
+        private void Jugar(Respuestas obj)
         {
             if (cliente != null)
             {
@@ -299,24 +303,36 @@ namespace JuegoBasta
 
 
                 respuestas = new Respuestas();
-                respuestas.Nombre = obj;
+                respuestas = obj;
                 //ventanaJuego.DataContext = respuestas;
                 lstrespuestas1.Add(respuestas);
 
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = lstrespuestas1 });
-                respuestas = null;
+                CambiarMensaje("¡BASTA!");
+                PuedeJugar = false;
             }
             else
             {
                 List<Respuestas> lstrespuestas2 = new List<Respuestas>();
-                respuestas2 = new Respuestas() ;
-                respuestas2.Nombre = obj;
+                respuestas2 = new Respuestas();
+                respuestas2 = obj;
                 //ventanaJuego.DataContext = respuestas2;
                 lstrespuestas2.Add(respuestas2);
 
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = lstrespuestas2 });
-                
+                CambiarMensaje("¡BASTA!");
+                PuedeJugar = false;
             }
+        }
+
+        public bool ValidarRespuestas(Respuestas r)
+        {
+            if (r.Nombre.StartsWith(Letra) && r.Color.StartsWith(Letra) && r.Lugar.StartsWith(Letra) && r.Animal.StartsWith(Letra) && r.Comida.StartsWith(Letra))
+            {
+                return true;
+            }
+            else
+                return false;
         }
     }
     public class DatoEnviado
