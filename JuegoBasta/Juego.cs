@@ -53,9 +53,10 @@ namespace JuegoBasta
         public Respuestas RespuestaJugador1 { get; set; }
         public Respuestas RespuestaJugador2 { get; set; }
 
-        public bool PuedeJugar { get; set; }
+        public bool PuedeJugarCliente { get; set; }
+        public bool PuedeJugarServidor { get; set; }
 
-       
+
 
 
         HttpListener servidor;
@@ -69,10 +70,9 @@ namespace JuegoBasta
             IniciarCommand = new RelayCommand<bool>(IniciarPartida);
             JugarCommand = new RelayCommand<Respuestas>(Jugar);
         }
-        public char temporaLetra { get; set; } = 'a';
         public char ElegirLetra()
         {
-            return (char)r.Next('a', 'z');
+            return (char)r.Next('a', 'z'); 
         }
 
         // SI CREA PARTIDA SE INICIA COMO SERVIDOR
@@ -106,12 +106,11 @@ namespace JuegoBasta
                 webSocket = listener.WebSocket;
                 CambiarMensaje("Conexión exitosa. Esperando información del contrincante.");
                 // EL SERVIDOR ENVÍA SU NOMBRE
-                EnviarComando(new DatoEnviado { Comando = Comando.NombreEnviado, Dato = Jugador1 });
+                EnviarComando(new DatoEnviado { Comando = Comando.NombreEnviado, Nombre = Jugador1 });
                 // EL SERVIDOR RECIBE EL COMANDO, QUE SERÍA EL NOMBRE DEL CLIENTE.
                 RecibirComando();
 
-                //Letra = ElegirLetra();
-                //EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, Dato = Letra });
+                
             }
             else
             {
@@ -204,12 +203,12 @@ namespace JuegoBasta
                         switch (comandorecibido.Comando)
                         {
                             case Comando.NombreEnviado:
-                                Jugador1 = (string)comandorecibido.Dato;
+                                Jugador1 = (string)comandorecibido.Nombre;
                                 CambiarMensaje("Se ha conectado con el jugador " + Jugador1);
                                 _ = currentDispatcher.BeginInvoke(new Action(() =>
                                 {
                                     // EL CLIENTE ENVÍA EL NOMBRE.
-                                    EnviarComando(new DatoEnviado { Comando = Comando.NombreEnviado, Dato = Jugador2 });
+                                    EnviarComando(new DatoEnviado { Comando = Comando.NombreEnviado, Nombre = Jugador2 });
                                     lobby.Hide();
 
                                     // SE RECIBE LA LETRA
@@ -219,7 +218,8 @@ namespace JuegoBasta
                                     ventanaJuego.Title = "Cliente";
                                     ventanaJuego.DataContext = this;
 
-                                    PuedeJugar = true;
+                                    PuedeJugarCliente = true;
+                                    PuedeJugarServidor = false;
                                     CambiarMensaje("Inicie juego");
                                     ventanaJuego.ShowDialog();
                                     lobby.Show();
@@ -231,19 +231,19 @@ namespace JuegoBasta
                             case Comando.JugadaEnviada:
                                 currentDispatcher.Invoke(new Action(() =>
                                 {
-                                    RespuestaJugador1 = (Respuestas)comandorecibido.Dato;
+                                    RespuestaJugador1 = (Respuestas)comandorecibido.DatoRespuestas;
                                     CambiarMensaje("Respuestas recibidas");
+                                    ActualizarValor();
                                 }));
                                 break;
 
 
 
-                                //case Comando.LetraEnviada:
-                                //    // LETRA NO TOMA EL VALOR DE DATO
-                                //    Letra = ((JArray)comandorecibido.Dato).ToObject<string>();
-                                //    //Letra = (char)comandorecibido.Dato;
-                                //    ActualizarValor();
-                                //    break;
+                            case Comando.LetraEnviada:
+                                // LETRA NO TOMA EL VALOR DE DATO
+                                Letra = (char)comandorecibido.LetraRandom;
+                                ActualizarValor();
+                                break;
                         }
                     }
                     else // SERVIDOR
@@ -251,7 +251,7 @@ namespace JuegoBasta
                         switch (comandorecibido.Comando)
                         {
                             case Comando.NombreEnviado:
-                                Jugador2 = (string)comandorecibido.Dato;
+                                Jugador2 = (string)comandorecibido.Nombre;
                                 CambiarMensaje("Se ha conectado con el jugador " + Jugador2);
 
                                 _ = currentDispatcher.BeginInvoke(new Action(() =>
@@ -261,7 +261,12 @@ namespace JuegoBasta
                                     JuegoBastaWindow ventanaJuego = new JuegoBastaWindow();
                                     ventanaJuego.Title = "Servidor";
                                     ventanaJuego.DataContext = this;
-                                    PuedeJugar = true;
+
+                                    Letra = ElegirLetra();
+                                    EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, LetraRandom = Letra });
+
+                                    PuedeJugarCliente = false;
+                                    PuedeJugarServidor = true;
                                     CambiarMensaje("Inicie juego");
                                     ventanaJuego.ShowDialog();
                                     lobby.Show();
@@ -271,8 +276,9 @@ namespace JuegoBasta
                             case Comando.JugadaEnviada:
                                 currentDispatcher.Invoke(new Action(() =>
                                 {
-                                    RespuestaJugador2 = (Respuestas)comandorecibido.Dato;
+                                    RespuestaJugador2 = (Respuestas)comandorecibido.DatoRespuestas;
                                     CambiarMensaje("Respuestas recibidas");
+                                    ActualizarValor();
                                 }));
                                 break;
                         }
@@ -283,8 +289,8 @@ namespace JuegoBasta
             {
                 if (webSocket.State == WebSocketState.Aborted)
                 {
-                    ventanaJuego.Close();
-                    lobby.Close();
+                    //ventanaJuego.Close();
+                    //lobby.Close();
                     MainVisible = true;
                     ActualizarValor("MainVisible");
                 }
@@ -303,15 +309,17 @@ namespace JuegoBasta
             {
                 RespuestaJugador2 = obj;
 
-                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = RespuestaJugador2 });
-                PuedeJugar = false;
+                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, DatoRespuestas = RespuestaJugador2 });
+                PuedeJugarCliente = false;
+                PuedeJugarServidor = false;
                 CambiarMensaje("¡BASTA!");
             }
             else
             {
                 RespuestaJugador1 = obj;
-                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = RespuestaJugador1 });
-                PuedeJugar = false;
+                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, DatoRespuestas = RespuestaJugador1 });
+                PuedeJugarCliente = false;
+                PuedeJugarServidor = false;
                 CambiarMensaje("¡BASTA!");
             }
         }
@@ -330,6 +338,9 @@ namespace JuegoBasta
     public class DatoEnviado
     {
         public Comando Comando { get; set; }
-        public object Dato { get; set; }
+        public string Nombre { get; set; }
+        public char LetraRandom { get; set; }
+
+        public Respuestas DatoRespuestas { get; set; }
     }
 }

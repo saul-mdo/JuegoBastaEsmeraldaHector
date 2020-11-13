@@ -56,7 +56,7 @@
                 <GroupBox>
                     <GroupBox.Style>
                         <Style TargetType="GroupBox">
-                            <Setter Property="IsEnabled" Value="{Binding PuedeJugar}"></Setter>
+                            <Setter Property="IsEnabled" Value="{Binding PuedeJugarServidor}"></Setter>
                         </Style>
                     </GroupBox.Style>
                     <StackPanel Orientation="Horizontal" >
@@ -83,7 +83,7 @@
                 <GroupBox >
                     <GroupBox.Style>
                         <Style TargetType="GroupBox">
-                            <Setter Property="IsEnabled" Value="{Binding PuedeJugar}"></Setter>
+                            <Setter Property="IsEnabled" Value="{Binding PuedeJugarCliente}"></Setter>
                         </Style>
                     </GroupBox.Style>
                     <StackPanel Orientation="Horizontal" >
