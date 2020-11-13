@@ -50,10 +50,10 @@ namespace JuegoBasta
 
         public string Letra { get; set; }
 
-        public List<Respuestas> RespuestaJugador1 { get; set; }
-        public List<Respuestas> RespuestaJugador2 { get; set; }
+        public Respuestas RespuestaJugador1 { get; set; }
+        public Respuestas RespuestaJugador2 { get; set; }
 
-        public bool PuedeJugar { get; set; }
+        public bool PuedeJugar { get; set; } = true;
 
         HttpListener servidor;
         ClientWebSocket cliente;
@@ -227,7 +227,7 @@ namespace JuegoBasta
                             case Comando.JugadaEnviada:
                                 currentDispatcher.Invoke(new Action(() =>
                                 {
-                                    RespuestaJugador1 = ((JArray)comandorecibido.Dato).ToObject<List<Respuestas>>();
+                                    RespuestaJugador1 = ((JArray)comandorecibido.Dato).ToObject<Respuestas>();
                                     CambiarMensaje("Respuesta del servidor recibida");
                                     ActualizarValor();
                                 }));
@@ -268,7 +268,7 @@ namespace JuegoBasta
                             case Comando.JugadaEnviada:
                                 currentDispatcher.Invoke(new Action(() =>
                                 {                                    
-                                    RespuestaJugador2 = ((JArray)comandorecibido.Dato).ToObject<List<Respuestas>>();
+                                    RespuestaJugador2 = ((JArray)comandorecibido.Dato).ToObject<Respuestas>();
                                     CambiarMensaje("Respuesta enviada");
                                     ActualizarValor();
                                 }));
@@ -293,33 +293,30 @@ namespace JuegoBasta
             }
 
         }
-        public Respuestas respuestas { get; set; } 
-        public Respuestas respuestas2 { get; set; } 
+        public Respuestas respuestas { get; set; } = new Respuestas();
+        public Respuestas respuestas2 { get; set; } = new Respuestas();
         private void Jugar(Respuestas obj)
         {
             if (cliente != null)
             {
-                List<Respuestas> lstrespuestas1 = new List<Respuestas>();
+                //List<Respuestas> lstrespuestas1 = new List<Respuestas>();
+                //respuestas = obj;
+                ////ventanaJuego.DataContext = respuestas;
+                //lstrespuestas1.Add(respuestas);
 
-
-                respuestas = new Respuestas();
-                respuestas = obj;
-                //ventanaJuego.DataContext = respuestas;
-                lstrespuestas1.Add(respuestas);
-
-                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = lstrespuestas1 });
+                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = obj });
                 CambiarMensaje("¡BASTA!");
                 PuedeJugar = false;
             }
             else
             {
-                List<Respuestas> lstrespuestas2 = new List<Respuestas>();
-                respuestas2 = new Respuestas();
-                respuestas2 = obj;
-                //ventanaJuego.DataContext = respuestas2;
-                lstrespuestas2.Add(respuestas2);
+                //List<Respuestas> lstrespuestas2 = new List<Respuestas>();
+                //respuestas2 = new Respuestas();
+                //respuestas2 = obj;
+                ////ventanaJuego.DataContext = respuestas2;
+                //lstrespuestas2.Add(respuestas2);
 
-                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = lstrespuestas2 });
+                EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = obj });
                 CambiarMensaje("¡BASTA!");
                 PuedeJugar = false;
             }
