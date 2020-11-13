@@ -55,6 +55,11 @@
             </StackPanel>
             <StackPanel >
                 <GroupBox >
+                    <GroupBox.Style>
+                        <Style TargetType="GroupBox">
+                            <Setter Property="IsEnabled" Value="{Binding PuedeJugar}"></Setter>
+                        </Style>
+                    </GroupBox.Style>
                     <StackPanel Orientation="Horizontal" >
                         <TextBox Width="50" Margin="5" Text="{Binding respuestas2.Nombre}"></TextBox>
                         <TextBox Width="50" Margin="5" Text="{Binding respuestas2.Lugar}"></TextBox>

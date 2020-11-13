@@ -48,7 +48,7 @@ namespace JuegoBasta
         Random r = new Random();
 
 
-        public string Letra { get; set; }
+        public char Letra { get; set; }
 
         public Respuestas RespuestaJugador1 { get; set; }
         public Respuestas RespuestaJugador2 { get; set; }
@@ -67,9 +67,9 @@ namespace JuegoBasta
             JugarCommand = new RelayCommand<Respuestas>(Jugar);
         }
         public char temporaLetra { get; set; } = 'a';
-        public string ElegirLetra()
+        public char ElegirLetra()
         {
-            return r.Next('a', 'z').ToString();
+            return (char)r.Next('a', 'z');
         }
 
         // SI CREA PARTIDA SE INICIA COMO SERVIDOR
@@ -107,8 +107,8 @@ namespace JuegoBasta
                 // EL SERVIDOR RECIBE EL COMANDO, QUE SERÍA EL NOMBRE DEL CLIENTE.
                 RecibirComando();
 
-                Letra = ElegirLetra();
-                EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, Dato = Letra });
+                //Letra = ElegirLetra();
+                //EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, Dato = Letra });
             }
             else
             {
@@ -208,7 +208,7 @@ namespace JuegoBasta
                                     lobby.Hide();
 
                                     // SE RECIBE LA LETRA
-                                    RecibirComando();
+                                    //RecibirComando();
 
                                     ventanaJuego = new JuegoBastaWindow();
                                     ventanaJuego.Title = "Cliente";
@@ -228,6 +228,7 @@ namespace JuegoBasta
                                 currentDispatcher.Invoke(new Action(() =>
                                 {
                                     RespuestaJugador1 = ((JArray)comandorecibido.Dato).ToObject<Respuestas>();
+                                    //RespuestaJugador1 = (Respuestas)comandorecibido.Dato;
                                     CambiarMensaje("Respuesta del servidor recibida");
                                     ActualizarValor();
                                 }));
@@ -235,13 +236,12 @@ namespace JuegoBasta
 
 
 
-
-                            case Comando.LetraEnviada:
-                                // LETRA NO TOMA EL VALOR DE DATO
-                                Letra = ((JArray)comandorecibido.Dato).ToObject<string>();
-                                //Letra = (char)comandorecibido.Dato;
-                                ActualizarValor();
-                                break;
+                            //case Comando.LetraEnviada:
+                            //    // LETRA NO TOMA EL VALOR DE DATO
+                            //    Letra = ((JArray)comandorecibido.Dato).ToObject<string>();
+                            //    //Letra = (char)comandorecibido.Dato;
+                            //    ActualizarValor();
+                            //    break;
                         }
                     }
                     else // SERVIDOR
@@ -267,7 +267,7 @@ namespace JuegoBasta
 
                             case Comando.JugadaEnviada:
                                 currentDispatcher.Invoke(new Action(() =>
-                                {                                    
+                                {
                                     RespuestaJugador2 = ((JArray)comandorecibido.Dato).ToObject<Respuestas>();
                                     CambiarMensaje("Respuesta enviada");
                                     ActualizarValor();
@@ -305,8 +305,8 @@ namespace JuegoBasta
                 //lstrespuestas1.Add(respuestas);
 
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = obj });
-                CambiarMensaje("¡BASTA!");
                 PuedeJugar = false;
+                CambiarMensaje("¡BASTA!");
             }
             else
             {
@@ -317,14 +317,14 @@ namespace JuegoBasta
                 //lstrespuestas2.Add(respuestas2);
 
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, Dato = obj });
-                CambiarMensaje("¡BASTA!");
                 PuedeJugar = false;
+                CambiarMensaje("¡BASTA!");
             }
         }
 
         public bool ValidarRespuestas(Respuestas r)
         {
-            if (r.Nombre.StartsWith(Letra) && r.Color.StartsWith(Letra) && r.Lugar.StartsWith(Letra) && r.Animal.StartsWith(Letra) && r.Comida.StartsWith(Letra))
+            if (r.Nombre.StartsWith(Letra.ToString()) && r.Color.StartsWith(Letra.ToString()) && r.Lugar.StartsWith(Letra.ToString()) && r.Animal.StartsWith(Letra.ToString()) && r.Comida.StartsWith(Letra.ToString()))
             {
                 return true;
             }
