@@ -7,7 +7,10 @@
         mc:Ignorable="d"
         Title="Basta" Height="320" Width="500">
     <Window.Background>
-        <ImageBrush ImageSource="/images/fondo.png"></ImageBrush>
+        <RadialGradientBrush>
+            <GradientStop Color="#FFE78D8D"/>
+            <GradientStop Color="#FFE73E19" Offset="1"/>
+        </RadialGradientBrush>
     </Window.Background>
     <Window.DataContext>
         <local:Juego></local:Juego>
@@ -25,7 +28,7 @@
     </Window.Style>
 
     <DockPanel>
-        <Label Margin="20" DockPanel.Dock="Top" FontFamily="Century Gothic" HorizontalAlignment="Center" FontSize="32">BASTA</Label>
+        <Label Style="{StaticResource CustomFont}" Margin="20" DockPanel.Dock="Top" FontFamily="Century Gothic" HorizontalAlignment="Center" FontSize="32">BASTA</Label>
 
         <Button Command="{Binding IniciarCommand}" CommandParameter="{Binding ElementName=rdbCrear, Path=IsChecked}" Margin="20" DockPanel.Dock="Bottom" FontFamily="Century Gothic" FontSize="18" Width="100" HorizontalAlignment="Center" Name="btnIniciar" Content="Iniciar">
             <Button.Style>
