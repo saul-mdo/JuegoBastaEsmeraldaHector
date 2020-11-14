@@ -26,10 +26,9 @@
             </Style.Triggers>
         </Style>
     </Window.Style>
-
+    
     <DockPanel>
-        <Label Style="{StaticResource CustomFont}" Margin="20" DockPanel.Dock="Top" FontFamily="Century Gothic" HorizontalAlignment="Center" FontSize="32">BASTA</Label>
-
+        <Label FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" Margin="20" DockPanel.Dock="Top"  HorizontalAlignment="Center" FontSize="55">BASTA</Label>
         <Button Command="{Binding IniciarCommand}" CommandParameter="{Binding ElementName=rdbCrear, Path=IsChecked}" Margin="20" DockPanel.Dock="Bottom" FontFamily="Century Gothic" FontSize="18" Width="100" HorizontalAlignment="Center" Name="btnIniciar" Content="Iniciar">
             <Button.Style>
                 <Style TargetType="Button">
@@ -38,9 +37,6 @@
                         <DataTrigger Binding="{Binding ElementName=rdbCrear, Path=IsChecked}" Value="True">
                             <Setter Property="IsEnabled" Value="True"></Setter>
                         </DataTrigger>
-
-
-
                         <DataTrigger Binding="{Binding ElementName=rdbUnirse, Path=IsChecked}" Value="True">
                             <Setter Property="IsEnabled" Value="True"></Setter>
                         </DataTrigger>
@@ -57,14 +53,18 @@
                 </Style>
             </Button.Style>
         </Button>
+        <StackPanel Margin="30,0,30,0">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width=".5*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label HorizontalAlignment="Center" >Jugador</Label>
+                <TextBox Text="{Binding Jugador1}"  Grid.Column="1" FontFamily="Century Gothic"/>
+              </Grid>
+           
 
-
-        <StackPanel Margin="8,0,8,0">
-
-            <Label FontFamily="Century Gothic">Nombre:</Label>
-            <TextBox Text="{Binding Jugador1}" FontFamily="Century Gothic"/>
-
-            <GroupBox Margin="10" Header="¿Qué deseas hacer?" Padding="10">
+            <GroupBox Margin="0, 10" Header="Elige una opción" Padding="10">
                 <StackPanel>
                     <RadioButton FontFamily="Century Gothic" x:Name="rdbCrear" IsChecked="True" Content="Crear partida"/>
                     <RadioButton FontFamily="Century Gothic" x:Name="rdbUnirse" Content="Unirse a una partida"/>

@@ -125,6 +125,10 @@
     </EmbeddedResource>
     <None Include="app.manifest" />
     <Resource Include="Fonts\DJB Chalk It Up.ttf" />
+    <Resource Include="Fonts\Chalk Stick.otf" />
+    <Resource Include="Fonts\CrayonHandRegular2016Demo.ttf" />
+    <Resource Include="Fonts\HechoAMano-Regular.ttf" />
+    <Resource Include="Fonts\TeachersStudent-Regular.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

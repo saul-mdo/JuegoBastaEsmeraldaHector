@@ -4,8 +4,20 @@
              xmlns:local="clr-namespace:JuegoBasta"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style x:Key="CustomFont">
-            <Setter Property="TextElement.FontFamily" Value="/Fonts/DJB-Chalk-It-Up.ttf"></Setter>
+        <Style x:Key="CustomFont" TargetType="Label">
+            <Setter Property="FontFamily" Value="/Fonts/DJB Chalk It Up.ttf #DJB"></Setter>
+        </Style>
+        <Style x:Key="sFont" TargetType="Label">
+            <Setter Property="FontFamily" Value="/Fonts/Chalk Stick.otf #chalk"></Setter>
+        </Style>
+        <Style x:Key="sFontCrayon" TargetType="Label">
+            <Setter Property="FontFamily" Value="/Fonts/CrayonHandRegular2016.Demo.ttf #Crayon"></Setter>
+        </Style>
+        <Style x:Key="sFontHand" TargetType="Label">
+            <Setter Property="FontFamily" Value="/Fonts/HechoAMano-Regular.ttf #Hand"></Setter>
+        </Style>
+        <Style x:Key="sFontTeachers" TargetType="Label">
+            <Setter Property="FontFamily" Value="/Fonts/TeachersStudent-Regular.ttf #Teachers"></Setter>
         </Style>
     </Application.Resources>
 </Application>
