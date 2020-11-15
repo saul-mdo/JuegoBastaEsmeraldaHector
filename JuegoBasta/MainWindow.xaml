@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JuegoBasta"
         mc:Ignorable="d"
-        Title="Basta" Height="320" Width="500" Icon="images/basta.ico">
+        Title="Basta" Height="420" Width="500" Icon="images/basta.ico">
     <Window.Background>
         <RadialGradientBrush>
             <GradientStop Color="#FFE78D8D"/>
@@ -33,7 +33,9 @@
     </Window.Resources>
     <DockPanel>
         <Label FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" Margin="20" DockPanel.Dock="Top"  HorizontalAlignment="Center" FontSize="55">BASTA</Label>
-        <Button Command="{Binding IniciarCommand}" CommandParameter="{Binding ElementName=rdbCrear, Path=IsChecked}" Margin="20" DockPanel.Dock="Bottom" FontFamily="Century Gothic" FontSize="18" Width="100" HorizontalAlignment="Center" Name="btnIniciar" Content="Iniciar">
+        <Border DockPanel.Dock="Bottom" Width="100" Height="40" CornerRadius="10" Background="White" Margin="0,10" BorderThickness="1" BorderBrush="LightGray">
+            <Button Margin="5,0" BorderBrush="Transparent" Command="{Binding IniciarCommand}" CommandParameter="{Binding ElementName=rdbCrear, Path=IsChecked}" FontFamily="Century Gothic" FontSize="18"  HorizontalAlignment="Center" Name="btnIniciar" Background="Transparent" Width="100" Height="40">
+
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="IsEnabled" Value="False"></Setter>
@@ -55,24 +57,44 @@
                     </Style.Triggers>
                 </Style>
             </Button.Style>
-            
+                <Image Source="images/flecha-de-juego.png" Margin="4"></Image>
         </Button>
-        <StackPanel Background="White"  Margin="30,0,30,0">
-              <Grid>
+        </Border>
+        <StackPanel Margin="40,0,40,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width=".5*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label HorizontalAlignment="Center" >JUGADOR</Label>
-                <TextBox Text="{Binding Jugador1}"  Grid.Column="1" FontFamily="Century Gothic"/>
-              </Grid>
-           
-
-            <GroupBox Margin="0, 10" Header="Elige una opción" Padding="10">
-                <StackPanel>
-                    <RadioButton FontFamily="Century Gothic" x:Name="rdbCrear" IsChecked="True" Content="Crear partida"/>
-                    <RadioButton FontFamily="Century Gothic" x:Name="rdbUnirse" Content="Unirse a una partida"/>
-
+                <Label HorizontalAlignment="Center"  FontSize="20" Margin="0,0,0,0" Grid.RowSpan="2">JUGADOR</Label>
+                <TextBox Text="{Binding Jugador1}" VerticalAlignment="Center" FontSize="20"  Margin="0" Grid.Column="1" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" Grid.RowSpan="2"/>
+            </Grid>
+            <GroupBox Header="ELEGIR UNA OPCION" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick">
+            <StackPanel  Margin="0,30,0,0" HorizontalAlignment="Center">
+                    <Border Background="White" CornerRadius="10" Margin="0,5">
+                    <Grid Margin="7,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width=".5*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" Margin="5" x:Name="rdbCrear" IsChecked="True" Content="CREAR PARTIDA"/>
+                            <Image HorizontalAlignment="Right" Grid.Column="1" Source="images/anadir.png" Height="20"></Image>
+                        </Grid>
+                    </Border>
+                    <Border Background="White" CornerRadius="10" Margin="0,5">
+                    <Grid Margin="7,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width=".5*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Margin="5" VerticalAlignment="Center" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" x:Name="rdbUnirse" Content="UNIRSE A UNA PARTIDA"/>
+                        <Image HorizontalAlignment="Left" Grid.Column="1" Source="images/enlace.png" Height="20"></Image>
+                    </Grid>
+                </Border>
                     <WrapPanel  Name="ipAdversario">
                         <WrapPanel.Style>
                             <Style>
@@ -84,10 +106,9 @@
                                 </Style.Triggers>
                             </Style>
                         </WrapPanel.Style>
-                        <TextBlock FontFamily="Century Gothic">IP del adversario:</TextBlock>
-                        <TextBox Text="{Binding IP}" FontFamily="Century Gothic" Margin="10, 0, 0,0" Width="300" Name="txtIp"></TextBox>
+                    <TextBlock FontFamily="Century Gothic">IP DEL ADVERSARIO</TextBlock>
+                        <TextBox Text="{Binding IP}"  Margin="10, 0, 0,0" Width="300" Name="txtIp"></TextBox>
                     </WrapPanel>
-
                 </StackPanel>
             </GroupBox>
         </StackPanel>

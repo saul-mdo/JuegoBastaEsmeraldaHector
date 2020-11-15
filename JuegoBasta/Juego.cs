@@ -51,7 +51,7 @@ namespace JuegoBasta
         public int pComida1 { get; set; }
         public int pComida2 { get; set; }
 
-        public string Jugador1 { get; set; } = "Jugador";
+        public string Jugador1 { get; set; } = "User24";
         public string Jugador2 { get; set; }
         public string IP { get; set; } = "localhost";
         public string Mensaje { get; set; }

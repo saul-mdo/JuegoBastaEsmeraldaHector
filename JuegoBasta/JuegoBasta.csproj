@@ -147,5 +147,12 @@
   <ItemGroup>
     <Resource Include="images\basta.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\flecha-de-juego.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\anadir.png" />
+    <Resource Include="images\enlace.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
