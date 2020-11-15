@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JuegoBasta"
         mc:Ignorable="d"
-        Title="Sala de Espera" Height="300" Width="500">
+        Title="Sala de Espera" Height="300" Width="500" Icon="images/basta.ico">
     <StackPanel Margin="10">
         <Label Margin="20" DockPanel.Dock="Top" FontFamily="Century Gothic" HorizontalAlignment="Center" FontSize="32">SALA DE ESPERA</Label>
         <TextBlock FontFamily="Century Gothic" FontSize="25">Usuario: <TextBlock FontWeight="Bold" FontFamily="Century Gothic" Text="{Binding Jugador1}"></TextBlock></TextBlock>

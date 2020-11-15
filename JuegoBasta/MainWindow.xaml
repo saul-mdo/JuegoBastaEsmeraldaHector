@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JuegoBasta"
         mc:Ignorable="d"
-        Title="Basta" Height="320" Width="500">
+        Title="Basta" Height="320" Width="500" Icon="images/basta.ico">
     <Window.Background>
         <RadialGradientBrush>
             <GradientStop Color="#FFE78D8D"/>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JuegoBasta"
         mc:Ignorable="d"
-        Title="JuegoBastaWindow" Height="450" Width="800">
+        Title="JuegoBastaWindow" Height="450" Width="800" Icon="images/basta.ico">
     
     <DockPanel>
 
