@@ -61,9 +61,21 @@
         </Button>
         </Border>
         <StackPanel Margin="40,0,40,0">
-            <GroupBox Header="ELEGIR UNA OPCION" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick">
-                <StackPanel Margin="0,30,0,0" HorizontalAlignment="Center">
-                    <Grid Margin="7,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width=".5*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label HorizontalAlignment="Center" FontSize="20" Margin="0,0,0,0" Grid.RowSpan="2">JUGADOR</Label>
+                <TextBox Text="{Binding Jugador1}" VerticalAlignment="Center" FontSize="20" Margin="0" Grid.Column="1" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" Grid.RowSpan="2"/>
+            </Grid>
+            <GroupBox HorizontalAlignment="Center" Header="ELEGIR UNA OPCION" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick">
+                <StackPanel Background="White" Margin="0,0,0,0" HorizontalAlignment="Center">
+                    <Grid Margin="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition Width=".5*"></ColumnDefinition>

@@ -10,25 +10,34 @@
     <DockPanel>
 
         <Grid DockPanel.Dock="Bottom">
-            <Button Command="{Binding JugarCommand}" CommandParameter="{Binding RespuestasJugador1}"  Width="200" Margin="5" Content="BASTA">
+            <Button Command="{Binding JugarCommand}" CommandParameter="{Binding RespuestaJugador1}"  Width="200" Margin="5" Content="BASTA">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Visibility" Value="Hidden"></Setter>
+                        <Setter Property="IsEnabled" Value="True"></Setter>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding BotonServer}" Value="Visible" >
                                 <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                                                                      
+                            <DataTrigger Binding="{Binding PuedeJugarServidor}" Value="False" >
+                                <Setter Property="IsEnabled" Value="False"></Setter>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Command="{Binding JugarCommand}" CommandParameter="{Binding RespuestasJugador2}"  Width="200" Margin="5" Content="BASTA" Background="Green">
+            <Button Command="{Binding JugarCommand}" CommandParameter="{Binding RespuestaJugador2}"  Width="200" Margin="5" Content="BASTA" Background="Green">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Visibility" Value="Hidden"></Setter>
+                        <Setter Property="IsEnabled" Value="True"></Setter>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding BotonCliente}" Value="Visible" >
                                 <Setter Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding PuedeJugarCliente}" Value="False" >
+                                <Setter Property="IsEnabled" Value="False"></Setter>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -52,7 +61,7 @@
         </Border>
 
         <StackPanel>
-            <StackPanel DataContext="RespuestasJugador1" >
+            <StackPanel  >
                 <GroupBox >
                     <GroupBox.Style>
                         <Style TargetType="GroupBox">
@@ -60,11 +69,11 @@
                         </Style>
                     </GroupBox.Style>
                     <StackPanel Orientation="Horizontal" >
-                        <TextBox Width="50" Margin="5" Text="{Binding Nombre}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding Lugar}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding Animal}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding Color}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding Comida}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding RespuestaJugador1.Nombre}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding RespuestaJugador1.Lugar}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding RespuestaJugador1.Animal}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding RespuestaJugador1.Color}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding RespuestaJugador1.Comida}"></TextBox>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox>
@@ -93,12 +102,12 @@
                             <Setter Property="IsEnabled" Value="{Binding PuedeJugarCliente}"></Setter>
                         </Style>
                     </GroupBox.Style>
-                    <StackPanel DataContext="RespuestasJugador2" Orientation="Horizontal" >
-                        <TextBox Width="50" Margin="5" Text="{Binding Nombre}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding Lugar}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding Animal}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding Color}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding Comida}"></TextBox>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox Width="50" Margin="5" Text="{Binding RespuestaJugador2.Nombre}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding RespuestaJugador2.Lugar}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding RespuestaJugador2.Animal}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding RespuestaJugador2.Color}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding RespuestaJugador2.Comida}"></TextBox>
                     </StackPanel>
                 </GroupBox>
                 
