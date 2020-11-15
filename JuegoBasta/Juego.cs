@@ -321,26 +321,24 @@ namespace JuegoBasta
         }       
         private void Jugar(Respuestas obj)
         {
-            if (cliente != null)
+            if (cliente != null)//Esta jugando el cliente.
             {
                 RespuestaJugador2 = obj;
                 
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, DatoRespuestas = RespuestaJugador2 });
-                ActualizarValor();
-                PuedeJugarCliente = false;
-                PuedeJugarServidor = false;
+                ActualizarValor();                
                 CambiarMensaje("¡BASTA!");
             }
-            else
+            else //Juega un servidor
             {
                 RespuestaJugador1 = obj;
                 
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, DatoRespuestas = RespuestaJugador1 });
-                ActualizarValor();
-                PuedeJugarCliente = false;
-                PuedeJugarServidor = false;
+                ActualizarValor();                
                 CambiarMensaje("¡BASTA!");
             }
+            PuedeJugarCliente = false;
+            PuedeJugarServidor = false;
             _ = ValidarRespuestas();
         }
 
