@@ -63,7 +63,7 @@
                     <ColumnDefinition Width=".5*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label HorizontalAlignment="Center" >Jugador</Label>
+                <Label HorizontalAlignment="Center" >JUGADOR</Label>
                 <TextBox Text="{Binding Jugador1}"  Grid.Column="1" FontFamily="Century Gothic"/>
               </Grid>
            

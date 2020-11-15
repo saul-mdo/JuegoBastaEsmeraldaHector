@@ -10,7 +10,7 @@
     <DockPanel>
 
         <Grid DockPanel.Dock="Bottom">
-            <Button Command="{Binding JugarCommand}" CommandParameter="{Binding respuestas}"  Width="200" Margin="5" Content="BASTA">
+            <Button Command="{Binding JugarCommand}" CommandParameter="{Binding RespuestasJugador1}"  Width="200" Margin="5" Content="BASTA">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Visibility" Value="Hidden"></Setter>
@@ -22,7 +22,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Command="{Binding JugarCommand}" CommandParameter="{Binding respuestas2}"  Width="200" Margin="5" Content="BASTA" Background="Green">
+            <Button Command="{Binding JugarCommand}" CommandParameter="{Binding RespuestasJugador2}"  Width="200" Margin="5" Content="BASTA" Background="Green">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Visibility" Value="Hidden"></Setter>
@@ -52,57 +52,56 @@
         </Border>
 
         <StackPanel>
-            <StackPanel >
-                <GroupBox>
+            <StackPanel DataContext="RespuestasJugador1" >
+                <GroupBox >
                     <GroupBox.Style>
                         <Style TargetType="GroupBox">
                             <Setter Property="IsEnabled" Value="{Binding PuedeJugarServidor}"></Setter>
                         </Style>
                     </GroupBox.Style>
                     <StackPanel Orientation="Horizontal" >
-                        <TextBox Width="50" Margin="5" Text="{Binding respuestas.Nombre}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding respuestas.Lugar}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding respuestas.Animal}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding respuestas.Color}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding respuestas.Comida}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding Nombre}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding Lugar}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding Animal}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding Color}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding Comida}"></TextBox>
                     </StackPanel>
                 </GroupBox>
-                
-                <DataGrid ItemsSource="{Binding RespuestaJugador1}" Height="200" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Width=".2*" Header="Nombre" Binding="{Binding Nombre}"></DataGridTextColumn>
-                        <DataGridTextColumn Width=".2*" Header="Lugar" Binding="{Binding Lugar}"></DataGridTextColumn>
-                        <DataGridTextColumn Width=".2*" Header="Animal" Binding="{Binding Animal}"></DataGridTextColumn>
-                        <DataGridTextColumn Width=".2*" Header="Color" Binding="{Binding Color}"></DataGridTextColumn>
-                        <DataGridTextColumn Width=".2*" Header="Comida" Binding="{Binding Comida}"></DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-
+                <GroupBox>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding pAnimal1}"></TextBlock>
+                        <TextBlock Text="{Binding pNombre1}"></TextBlock>
+                        <TextBlock Text="{Binding pLugar1}"></TextBlock>
+                        <TextBlock Text="{Binding pColor1}"></TextBlock>
+                        <TextBlock Text="{Binding pComida1}"></TextBlock>
+                    </StackPanel>
+                </GroupBox>
             </StackPanel>
             <StackPanel >
-                <GroupBox >
+                <GroupBox>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding pAnimal2}"></TextBlock>
+                        <TextBlock Text="{Binding pNombre2}"></TextBlock>
+                        <TextBlock Text="{Binding pLugar2}"></TextBlock>
+                        <TextBlock Text="{Binding pColor2}"></TextBlock>
+                        <TextBlock Text="{Binding pComida2}"></TextBlock>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox  >
                     <GroupBox.Style>
                         <Style TargetType="GroupBox">
                             <Setter Property="IsEnabled" Value="{Binding PuedeJugarCliente}"></Setter>
                         </Style>
                     </GroupBox.Style>
-                    <StackPanel Orientation="Horizontal" >
-                        <TextBox Width="50" Margin="5" Text="{Binding respuestas2.Nombre}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding respuestas2.Lugar}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding respuestas2.Animal}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding respuestas2.Color}"></TextBox>
-                        <TextBox Width="50" Margin="5" Text="{Binding respuestas2.Comida}"></TextBox>
+                    <StackPanel DataContext="RespuestasJugador2" Orientation="Horizontal" >
+                        <TextBox Width="50" Margin="5" Text="{Binding Nombre}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding Lugar}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding Animal}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding Color}"></TextBox>
+                        <TextBox Width="50" Margin="5" Text="{Binding Comida}"></TextBox>
                     </StackPanel>
                 </GroupBox>
-                <DataGrid ItemsSource="{Binding RespuestaJugador2}" Height="200" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Width=".2*" Header="Nombre" Binding="{Binding Nombre}"></DataGridTextColumn>
-                        <DataGridTextColumn Width=".2*" Header="Lugar" Binding="{Binding Lugar}"></DataGridTextColumn>
-                        <DataGridTextColumn Width=".2*" Header="Animal" Binding="{Binding Animal}"></DataGridTextColumn>
-                        <DataGridTextColumn Width=".2*" Header="Color" Binding="{Binding Color}"></DataGridTextColumn>
-                        <DataGridTextColumn Width=".2*" Header="Comida" Binding="{Binding Comida}"></DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                
             </StackPanel>
         </StackPanel>
 

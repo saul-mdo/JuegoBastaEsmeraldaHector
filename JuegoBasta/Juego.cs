@@ -36,6 +36,21 @@ namespace JuegoBasta
             }));
         }
 
+
+        public int pAnimal1 { get; set; }
+        public int pAnimal2 { get; set; }
+
+        public int pNombre1 { get; set; }
+        public int pNombre2 { get; set; }
+
+        public int pLugar1 { get; set; }
+        public int pLugar2 { get; set; }
+
+        public int pColor1 { get; set; }
+        public int pColor2 { get; set; }
+        public int pComida1 { get; set; }
+        public int pComida2 { get; set; }
+
         public string Jugador1 { get; set; } = "Jugador";
         public string Jugador2 { get; set; }
         public string IP { get; set; } = "localhost";
@@ -50,8 +65,8 @@ namespace JuegoBasta
 
         public char Letra { get; set; }
 
-        public Respuestas RespuestaJugador1 { get; set; }
-        public Respuestas RespuestaJugador2 { get; set; }
+        public Respuestas RespuestaJugador1 { get; set; } = new Respuestas();
+        public Respuestas RespuestaJugador2 { get; set; } = new Respuestas();
 
         public bool PuedeJugarCliente { get; set; }
         public bool PuedeJugarServidor { get; set; }
@@ -300,16 +315,15 @@ namespace JuegoBasta
                 }
             }
 
-        }
-        public Respuestas respuestas { get; set; } = new Respuestas();
-        public Respuestas respuestas2 { get; set; } = new Respuestas();
+        }       
         private void Jugar(Respuestas obj)
         {
             if (cliente != null)
             {
                 RespuestaJugador2 = obj;
-
+                
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, DatoRespuestas = RespuestaJugador2 });
+                ActualizarValor();
                 PuedeJugarCliente = false;
                 PuedeJugarServidor = false;
                 CambiarMensaje("¡BASTA!");
@@ -317,24 +331,43 @@ namespace JuegoBasta
             else
             {
                 RespuestaJugador1 = obj;
+                
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, DatoRespuestas = RespuestaJugador1 });
+                ActualizarValor();
                 PuedeJugarCliente = false;
                 PuedeJugarServidor = false;
                 CambiarMensaje("¡BASTA!");
             }
         }
 
-        public bool ValidarRespuestas(Respuestas r)
+        async Task ValidarRespuestas()
         {
-            if (r.Nombre.StartsWith(Letra.ToString()) && r.Color.StartsWith(Letra.ToString()) && r.Lugar.StartsWith(Letra.ToString()) && r.Animal.StartsWith(Letra.ToString()) && r.Comida.StartsWith(Letra.ToString()))
+            if(RespuestaJugador1!=null && RespuestaJugador2!=null)
             {
-
-                return true;
+                if(RespuestaJugador1.Nombre!=RespuestaJugador2.Nombre)
+                {
+                    pNombre1 = 100;
+                    pNombre2 = 100;
+                }
+                else if(RespuestaJugador1.Nombre == RespuestaJugador2.Nombre)
+                {
+                    pNombre1 = 50;
+                    pNombre2 = 50;
+                }
+                else if(!RespuestaJugador1.Nombre.StartsWith(Letra.ToString())|| RespuestaJugador1.Nombre == null)
+                {
+                    pNombre1 = 0;
+                }
+                else if (!RespuestaJugador2.Nombre.StartsWith(Letra.ToString()))
+                {
+                    pNombre2 = 0;
+                }
+                
             }
-            else
-                return false;
         }
     }
+
+
     public class DatoEnviado
     {
         public Comando Comando { get; set; }
