@@ -81,6 +81,10 @@
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition Width=".5*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
                             <RadioButton FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" Margin="5" x:Name="rdbCrear" IsChecked="True" Content="CREAR PARTIDA"/>
                             <Image HorizontalAlignment="Right" Grid.Column="1" Source="images/anadir.png" Height="20"></Image>
                         </Grid>
@@ -94,7 +98,7 @@
                         <RadioButton Margin="5" VerticalAlignment="Center" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" x:Name="rdbUnirse" Content="UNIRSE A UNA PARTIDA"/>
                         <Image HorizontalAlignment="Left" Grid.Column="1" Source="images/enlace.png" Height="20"></Image>
                     </Grid>
-                </Border>
+                    </Border>
                     <WrapPanel  Name="ipAdversario">
                         <WrapPanel.Style>
                             <Style>
