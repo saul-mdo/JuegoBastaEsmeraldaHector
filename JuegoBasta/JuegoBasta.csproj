@@ -138,7 +138,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="images\boton-de-reproduccion-de-video.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="images\background-red.jpg" />
   </ItemGroup>

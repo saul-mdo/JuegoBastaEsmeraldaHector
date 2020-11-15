@@ -26,7 +26,11 @@
             </Style.Triggers>
         </Style>
     </Window.Style>
-    
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="/JuegoBasta;component/Fonts/#Chalk Stick"></Setter>
+        </Style>
+    </Window.Resources>
     <DockPanel>
         <Label FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" Margin="20" DockPanel.Dock="Top"  HorizontalAlignment="Center" FontSize="55">BASTA</Label>
         <Button Command="{Binding IniciarCommand}" CommandParameter="{Binding ElementName=rdbCrear, Path=IsChecked}" Margin="20" DockPanel.Dock="Bottom" FontFamily="Century Gothic" FontSize="18" Width="100" HorizontalAlignment="Center" Name="btnIniciar" Content="Iniciar">
@@ -48,12 +52,12 @@
                             </MultiDataTrigger.Conditions>
                             <Setter Property="IsEnabled" Value="False"></Setter>
                         </MultiDataTrigger>
-
                     </Style.Triggers>
                 </Style>
             </Button.Style>
+            
         </Button>
-        <StackPanel Margin="30,0,30,0">
+        <StackPanel Background="White"  Margin="30,0,30,0">
               <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width=".5*"></ColumnDefinition>
