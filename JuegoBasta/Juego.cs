@@ -482,6 +482,11 @@ namespace JuegoBasta
                     await Task.Delay(10000);
                     RespuestaJugador1 = null;
                     RespuestaJugador2 = null;
+                    pAnimal1 = pAnimal2 = 0;
+                    pNombre1 = pNombre2 = 0;
+                    pColor1 = pColor2 = 0;
+                    pLugar1 = pLugar2 = 0;
+                    pComida1 = pComida2 = 0;
 
                     PuedeJugarCliente = true;
                     PuedeJugarServidor = true;
