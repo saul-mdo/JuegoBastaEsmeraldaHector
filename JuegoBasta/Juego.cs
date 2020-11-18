@@ -87,7 +87,7 @@ namespace JuegoBasta
         }
         public char ElegirLetra()
         {
-            return (char)r.Next('a', 'z'); 
+            return (char)r.Next('A', 'Z'); 
         }
 
         // SI CREA PARTIDA SE INICIA COMO SERVIDOR
@@ -351,118 +351,54 @@ namespace JuegoBasta
         {
             int puntaje1 = 0;
             int puntaje2 = 0;
-            if((RespuestaJugador1.Color!=null || RespuestaJugador1.Comida!=null || RespuestaJugador1.Animal!=null || RespuestaJugador1.Lugar!=null || RespuestaJugador1.Nombre!=null)
+            if ((RespuestaJugador1.Color != null || RespuestaJugador1.Comida != null || RespuestaJugador1.Animal != null || RespuestaJugador1.Lugar != null || RespuestaJugador1.Nombre != null)
                 &&
                 (RespuestaJugador2.Color != null || RespuestaJugador2.Comida != null || RespuestaJugador2.Animal != null || RespuestaJugador2.Lugar != null || RespuestaJugador2.Nombre != null))
             {
-                if(RespuestaJugador1.Nombre.ToUpper()!=RespuestaJugador2.Nombre.ToUpper())
+                // Validar nombre jugador 1
+                if (RespuestaJugador1.Nombre == RespuestaJugador1.Nombre)
                 {
-                    pNombre1 = pNombre1+100;
-                    pNombre2 = pNombre2+100;
+                    pNombre1 = 50;
                 }
-                 if(RespuestaJugador1.Nombre.ToUpper() == RespuestaJugador2.Nombre.ToUpper())
+                else if (!RespuestaJugador1.Nombre.StartsWith(Letra.ToString()))
                 {
-                    pNombre1 = pNombre1+50;
-                    pNombre2 = pNombre2+50;
+                    pNombre1 = 0;
                 }
-                 if(!RespuestaJugador1.Nombre.StartsWith(Letra.ToString())|| RespuestaJugador1.Nombre == null)
+                else if (RespuestaJugador1.Nombre == null)
                 {
-                    pNombre1 = pNombre1;
+                    pNombre1 = 0;
                 }
-                if (!RespuestaJugador2.Nombre.StartsWith(Letra.ToString()) || RespuestaJugador2.Nombre == null)
-                {
-                    pNombre2 = pNombre2;
-                }
-               // await Task.Delay(200);
+                else pNombre1 = 100;
 
-                //Validaciones de comida
-                if (RespuestaJugador1.Comida.ToUpper() != RespuestaJugador2.Comida.ToUpper())
-                {
-                    pComida1 = pComida1+100;
-                    pComida2 = pComida2+100;
-                }
-                 if (RespuestaJugador1.Comida.ToUpper() == RespuestaJugador2.Comida.ToUpper())
-                {
-                    pComida1 = pComida1+50;
-                    pComida2 = pComida2+50;
-                }
-                 if (!RespuestaJugador1.Comida.StartsWith(Letra.ToString()) || RespuestaJugador1.Comida == null)
-                {
-                    pComida1 = pComida1;
-                }
-                if (!RespuestaJugador2.Comida.StartsWith(Letra.ToString()) || RespuestaJugador2.Comida == null)
-                {
-                    pComida2 = pComida2;
-                }
 
-                //Validaciones de color
-                if (RespuestaJugador1.Color.ToUpper() != RespuestaJugador2.Color.ToUpper())
+                // Validar nombre jugador 2
+                if (RespuestaJugador1.Nombre == RespuestaJugador2.Nombre)
                 {
-                    pColor1 = pColor1+100;
-                    pColor2 = pColor2+100;
+                    pNombre2 = 50;
                 }
-                 if (RespuestaJugador1.Color.ToUpper() == RespuestaJugador2.Color.ToUpper())
+                else if (!RespuestaJugador2.Nombre.StartsWith(Letra.ToString()))
                 {
-                    pColor1 = pColor1+50;
-                    pColor2 = pColor2+50;
+                    pNombre2 = 0;
                 }
-                 if (!RespuestaJugador1.Color.StartsWith(Letra.ToString()) || RespuestaJugador1.Color == null)
+                else if (RespuestaJugador2.Nombre == null)
                 {
-                    pColor1 = pColor1;
+                    pNombre2 = 0;
                 }
-                if (!RespuestaJugador2.Color.StartsWith(Letra.ToString()) || RespuestaJugador2.Color == null)
-                {
-                    pColor2 = pColor2;
-                }
-                //Validaciones de animal
-                if (RespuestaJugador1.Animal.ToUpper() != RespuestaJugador2.Animal.ToUpper())
-                {
-                    pAnimal1 = pAnimal1+100;
-                    pAnimal2 = pAnimal2+100;
-                }
-                 if (RespuestaJugador1.Animal.ToUpper() == RespuestaJugador2.Animal.ToUpper())
-                {
-                    pAnimal1 = pAnimal1+50;
-                    pAnimal2 = pAnimal2+50;
-                }
-                 if (!RespuestaJugador1.Animal.StartsWith(Letra.ToString()) || RespuestaJugador1.Animal == null)
-                {
-                    pAnimal1 = pAnimal1;
-                }
-                if (!RespuestaJugador2.Animal.StartsWith(Letra.ToString()) || RespuestaJugador2.Animal == null)
-                {
-                    pAnimal2 = pAnimal2;
-                }
-                //Validaciones de lugar
-                if (RespuestaJugador1.Lugar.ToUpper() != RespuestaJugador2.Lugar.ToUpper())
-                {
-                    pLugar1 = pLugar1+100;
-                    pLugar2 = pLugar2+100;
-                }
-                 if (RespuestaJugador1.Animal.ToUpper() == RespuestaJugador2.Animal.ToUpper())
-                {
-                    pLugar1 = pLugar1+50;
-                    pLugar2 = pLugar2+50;
-                }
-                 if (!RespuestaJugador1.Animal.StartsWith(Letra.ToString()) || RespuestaJugador1.Animal == null)
-                {
-                    pLugar1 = pLugar1;
-                }
-                if (!RespuestaJugador2.Animal.StartsWith(Letra.ToString()) || RespuestaJugador2.Animal == null)
-                {
-                    pLugar2 = pLugar2;
-                }
+                else pNombre2 = 100;
+
+
+
 
                 PuntajeJugador1 = pNombre1 + pComida1 + pColor1 + pLugar1 + pAnimal1;
                 PuntajeJugador2 = pNombre2 + pComida2 + pColor2 + pLugar2 + pAnimal2;
-                if(PuntajeJugador1==PuntajeJugador2)
+                if (PuntajeJugador1 == PuntajeJugador2)
                 {
                     CambiarMensaje("Empate");
                     puntaje1++;
                     puntaje2++;
                 }
                 bool ganaJugador1 = (PuntajeJugador1 > PuntajeJugador2);
-                if(ganaJugador1)    
+                if (ganaJugador1)
                 {
                     CambiarMensaje($"Gana jugador {Jugador1}");
                     puntaje1++;
@@ -475,7 +411,7 @@ namespace JuegoBasta
 
 
 
-                if(puntaje1<3 && puntaje2<3)
+                if (puntaje1 < 3 && puntaje2 < 3)
                 {
                     await Task.Delay(10000);
                     CambiarMensaje("Esperando el siguiente turno");
@@ -491,7 +427,8 @@ namespace JuegoBasta
                     PuedeJugarCliente = true;
                     PuedeJugarServidor = true;
                     Letra = ElegirLetra();
-                    CambiarMensaje("Escribe tus respuestas");                    
+                    EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, LetraRandom = Letra });
+                    CambiarMensaje("Escribe tus respuestas");
                 }
                 else
                 {
@@ -504,6 +441,7 @@ namespace JuegoBasta
 
             //Todavía no juegan los dos
         }
+        
     }
 
 
