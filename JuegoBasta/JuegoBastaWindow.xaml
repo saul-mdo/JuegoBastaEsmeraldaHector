@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JuegoBasta"
         mc:Ignorable="d"
-        Title="Tablero de Juego" Height="470" Width="800" Icon="images/basta.ico">
+        Title="Tablero de Juego" Height="470" Width="900" Icon="images/basta.ico">
     <Window.Background>
         <RadialGradientBrush>
             <GradientStop Color="#FFE78D8D"/>

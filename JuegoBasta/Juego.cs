@@ -17,7 +17,7 @@ using System.Windows.Threading;
 
 namespace JuegoBasta
 {
-    public enum Comando { NombreEnviado, LetraEnviada, JugadaEnviada }
+    public enum Comando { NombreEnviado, LetraEnviada, JugadaEnviada, JugadaConfirmada }
     public class Juego : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -72,7 +72,9 @@ namespace JuegoBasta
         public bool PuedeJugarServidor { get; set; }
 
 
+        public bool ConfirmacionServer { get; set; } = false;
 
+        public bool ConfirmacionCliente { get; set; } = false;
 
         HttpListener servidor;
         ClientWebSocket cliente;
@@ -248,6 +250,7 @@ namespace JuegoBasta
                                 {
                                     RespuestaJugador1 = (Respuestas)comandorecibido.DatoRespuestas;
                                     CambiarMensaje("Respuestas recibidas");
+                                    EnviarComando(new DatoEnviado { Comando = Comando.JugadaConfirmada, ConfirmarJugada = true });
                                     ActualizarValor();
                                 }));
                                 _ = ValidarRespuestas();
@@ -256,6 +259,11 @@ namespace JuegoBasta
                             case Comando.LetraEnviada:
                                 Letra = (char)comandorecibido.LetraRandom;
                                 ActualizarValor();
+                                break;
+
+                            case Comando.JugadaConfirmada:
+                                ConfirmacionServer = comandorecibido.ConfirmarJugada;
+                                _ = ValidarRespuestas();
                                 break;
                         }
                     }
@@ -291,9 +299,14 @@ namespace JuegoBasta
                                 currentDispatcher.Invoke(new Action(() =>
                                 {
                                     RespuestaJugador2 = (Respuestas)comandorecibido.DatoRespuestas;
+                                    EnviarComando(new DatoEnviado { Comando = Comando.JugadaConfirmada, ConfirmarJugada = true });
                                     CambiarMensaje("Respuestas recibidas");
                                     ActualizarValor();
                                 }));
+                                _ = ValidarRespuestas();
+                                break;
+                            case Comando.JugadaConfirmada:
+                                ConfirmacionCliente = comandorecibido.ConfirmarJugada;
                                 _ = ValidarRespuestas();
                                 break;
                         }
@@ -324,20 +337,24 @@ namespace JuegoBasta
                 RespuestaJugador2 = obj;
                 
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, DatoRespuestas = RespuestaJugador2 });
+                
+                PuedeJugarCliente = false;
                 ActualizarValor();                
                 CambiarMensaje("¡Respuesta enviada!");
                 
-                PuedeJugarCliente = false;
+               
             }
             else //Juega un servidor
             {
                 RespuestaJugador1 = obj;
                 
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, DatoRespuestas = RespuestaJugador1 });
+                
+                PuedeJugarServidor = false;
                 ActualizarValor();                
                 CambiarMensaje("¡Respuesta enviada!");
                 
-                PuedeJugarServidor = false;
+                
             }
             _ = ValidarRespuestas();
         }
@@ -346,9 +363,7 @@ namespace JuegoBasta
         {
             int puntaje1 = 0;
             int puntaje2 = 0;
-            if ((RespuestaJugador1.Color != null || RespuestaJugador1.Comida != null || RespuestaJugador1.Animal != null || RespuestaJugador1.Lugar != null || RespuestaJugador1.Nombre != null)
-                &&
-                (RespuestaJugador2.Color != null || RespuestaJugador2.Comida != null || RespuestaJugador2.Animal != null || RespuestaJugador2.Lugar != null || RespuestaJugador2.Nombre != null))
+            if (ConfirmacionServer==true&&ConfirmacionCliente)
             {
                 
                 // VALIDACIONES NOMBRE JUGADOR 1
@@ -625,5 +640,7 @@ namespace JuegoBasta
         public string Nombre { get; set; }
         public char LetraRandom { get; set; }
         public Respuestas DatoRespuestas { get; set; }
+
+        public bool ConfirmarJugada { get; set; }
     }
 }
