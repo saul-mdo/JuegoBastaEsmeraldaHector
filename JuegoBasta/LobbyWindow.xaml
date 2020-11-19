@@ -6,9 +6,15 @@
         xmlns:local="clr-namespace:JuegoBasta"
         mc:Ignorable="d"
         Title="Sala de Espera" Height="300" Width="500" Icon="images/basta.ico">
+    <Window.Background>
+        <RadialGradientBrush>
+            <GradientStop Color="#FFE78D8D"/>
+            <GradientStop Color="#FFE73E19" Offset="1"/>
+        </RadialGradientBrush>
+    </Window.Background>
     <StackPanel Margin="10">
-        <Label Margin="20" DockPanel.Dock="Top" FontFamily="Century Gothic" HorizontalAlignment="Center" FontSize="32">SALA DE ESPERA</Label>
-        <TextBlock FontFamily="Century Gothic" FontSize="25">Usuario: <TextBlock FontWeight="Bold" FontFamily="Century Gothic" Text="{Binding Jugador1}"></TextBlock></TextBlock>
-        <TextBlock HorizontalAlignment="Center" FontFamily="Century Gothic" Margin="0,10" FontStyle="Italic" FontSize="16" TextWrapping="Wrap" Text="{Binding Mensaje}"/>
+        <Label Margin="20" DockPanel.Dock="Top" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" HorizontalAlignment="Center" FontSize="32">SALA DE ESPERA</Label>
+        <TextBlock FontFamily="Century Gothic" Margin="40,0" FontSize="25">Usuario: <TextBlock FontWeight="Bold" FontFamily="Century Gothic" Text="{Binding Jugador1}"></TextBlock></TextBlock>
+        <TextBlock HorizontalAlignment="Center" FontFamily="Century Gothic" Margin="40,10" FontStyle="Italic" FontSize="16" TextWrapping="Wrap" Text="{Binding Mensaje}"/>
     </StackPanel>
 </Window>

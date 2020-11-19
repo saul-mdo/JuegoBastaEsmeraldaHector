@@ -61,7 +61,7 @@
         </Button>
         </Border>
         <StackPanel Margin="40,0,40,0">
-            <Grid>
+            <Grid HorizontalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="3*"/>
                     <RowDefinition/>
@@ -70,24 +70,25 @@
                     <ColumnDefinition Width=".5*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label HorizontalAlignment="Center" FontSize="20" Margin="0,0,0,0" Grid.RowSpan="2">JUGADOR</Label>
-                <TextBox Text="{Binding Jugador1}" VerticalAlignment="Center" FontSize="20" Margin="0" Grid.Column="1" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" Grid.RowSpan="2"/>
+                <Label HorizontalAlignment="Center" FontFamily="Calibri" FontSize="20" Margin="0,0,0,0" Grid.RowSpan="2">JUGADOR</Label>
+                <TextBox Width="220" Text="{Binding Jugador1}" VerticalAlignment="Center" FontSize="20" Margin="0" Grid.Column="1" FontFamily="Calibri" Grid.RowSpan="2"/>
             </Grid>
-            <GroupBox HorizontalAlignment="Center" Header="ELEGIR UNA OPCION" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick">
-                <StackPanel Background="White" Margin="0,0,0,0" HorizontalAlignment="Center">
+            <!--<GroupBox HorizontalAlignment="Center" Header="ELEGIR UNA OPCION" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick">
+            </GroupBox>-->
+            <StackPanel Background="White" Margin="0,30,0,0" Width="300px" HorizontalAlignment="Center">
                     <Grid Margin="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition Width=".5*"></ColumnDefinition>
+                            <ColumnDefinition Width="24px"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <RadioButton Grid.Row="0" Grid.Column="0" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" Margin="5" x:Name="rdbCrear" IsChecked="True" Content="CREAR PARTIDA"/>
-                        <Image HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Source="images/anadir.png" Height="20"></Image>
-                        <RadioButton Grid.Row="1" Grid.Column="0" Margin="5" VerticalAlignment="Center" FontFamily="/JuegoBasta;component/Fonts/#Chalk Stick" x:Name="rdbUnirse" Content="UNIRSE A UNA PARTIDA"/>
-                        <Image Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Source="images/enlace.png" Height="20"></Image>
+                        <RadioButton Grid.Row="0"  Grid.Column="0" FontFamily="Calibri" Margin="5" x:Name="rdbCrear" IsChecked="True" Content="CREAR PARTIDA"/>
+                        <Image HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Source="images/anadir.png" Height="20"></Image>
+                        <RadioButton Grid.Row="1" Grid.Column="0" Margin="5" VerticalAlignment="Center" FontFamily="Calibri" x:Name="rdbUnirse" Content="UNIRSE A UNA PARTIDA"/>
+                        <Image Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Source="images/enlace.png" Height="20"></Image>
                     </Grid>
 
                     <WrapPanel Name="ipAdversario">
@@ -101,11 +102,11 @@
                                 </Style.Triggers>
                             </Style>
                         </WrapPanel.Style>
-                        <TextBlock FontFamily="Century Gothic">IP DEL ADVERSARIO</TextBlock>
-                        <TextBox Text="{Binding IP}" Margin="10, 0, 0,0" Width="300" Name="txtIp"></TextBox>
+                        <TextBlock FontFamily="Calibri" Margin="5,0" >IP DEL ADVERSARIO</TextBlock>
+                        <TextBox Text="{Binding IP}"  Margin="10, 0, 0,10" Width="200"  Name="txtIp"></TextBox>
                     </WrapPanel>
                 </StackPanel>
-            </GroupBox>
+            
         </StackPanel>
 
     </DockPanel>
