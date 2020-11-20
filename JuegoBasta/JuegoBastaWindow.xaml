@@ -126,9 +126,9 @@
 
                 <GroupBox BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding pAnimal1}"/>
                         <TextBlock Text="{Binding pNombre1}"/>
                         <TextBlock Text="{Binding pLugar1}"/>
+                        <TextBlock Text="{Binding pAnimal1}"/>
                         <TextBlock Text="{Binding pColor1}"/>
                         <TextBlock Text="{Binding pComida1}"/>
                     </StackPanel>
@@ -157,9 +157,9 @@
                 </UniformGrid.Resources>
                 <GroupBox BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding pAnimal2}"></TextBlock>
                         <TextBlock Text="{Binding pNombre2}"></TextBlock>
                         <TextBlock Text="{Binding pLugar2}"></TextBlock>
+                        <TextBlock Text="{Binding pAnimal2}"></TextBlock>
                         <TextBlock Text="{Binding pColor2}"></TextBlock>
                         <TextBlock Text="{Binding pComida2}"></TextBlock>
                     </StackPanel>
