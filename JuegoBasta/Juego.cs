@@ -228,8 +228,6 @@ namespace JuegoBasta
                                     EnviarComando(new DatoEnviado { Comando = Comando.NombreEnviado, Nombre = Jugador2 });
                                     lobby.Hide();
 
-                                    // SE RECIBE LA LETRA
-                                    //RecibirComando();
                                     BotonCliente = "Visible";
                                     ventanaJuego = new JuegoBastaWindow();
                                     ventanaJuego.Title = "Cliente";
@@ -250,7 +248,8 @@ namespace JuegoBasta
                                 {
                                     RespuestaJugador1 = (Respuestas)comandorecibido.DatoRespuestas;
                                     CambiarMensaje("Respuestas recibidas");
-                                    EnviarComando(new DatoEnviado { Comando = Comando.JugadaConfirmada, ConfirmarJugada = true });
+                                    ConfirmacionCliente = true;
+                                    EnviarComando(new DatoEnviado { Comando = Comando.JugadaConfirmada, ConfirmarJugada = ConfirmacionCliente });
                                     ActualizarValor();
                                 }));
                                 _ = ValidarRespuestas();
@@ -262,7 +261,7 @@ namespace JuegoBasta
                                 break;
 
                             case Comando.JugadaConfirmada:
-                                ConfirmacionServer = comandorecibido.ConfirmarJugada;
+                                ConfirmacionServer = (bool)comandorecibido.ConfirmarJugada;
                                 _ = ValidarRespuestas();
                                 break;
                         }
@@ -299,14 +298,16 @@ namespace JuegoBasta
                                 currentDispatcher.Invoke(new Action(() =>
                                 {
                                     RespuestaJugador2 = (Respuestas)comandorecibido.DatoRespuestas;
-                                    EnviarComando(new DatoEnviado { Comando = Comando.JugadaConfirmada, ConfirmarJugada = true });
+                                    ConfirmacionServer = true;
+                                    EnviarComando(new DatoEnviado { Comando = Comando.JugadaConfirmada, ConfirmarJugada = ConfirmacionServer});
                                     CambiarMensaje("Respuestas recibidas");
                                     ActualizarValor();
                                 }));
                                 _ = ValidarRespuestas();
                                 break;
+
                             case Comando.JugadaConfirmada:
-                                ConfirmacionCliente = comandorecibido.ConfirmarJugada;
+                                ConfirmacionCliente = (bool)comandorecibido.ConfirmarJugada;
                                 _ = ValidarRespuestas();
                                 break;
                         }
@@ -340,7 +341,7 @@ namespace JuegoBasta
                 
                 PuedeJugarCliente = false;
                 ActualizarValor();                
-                CambiarMensaje("¡Respuesta enviada!");
+                CambiarMensaje("Respuesta enviada");
                 
                
             }
@@ -363,7 +364,7 @@ namespace JuegoBasta
         {
             int puntaje1 = 0;
             int puntaje2 = 0;
-            if (ConfirmacionServer==true&&ConfirmacionCliente)
+            if (ConfirmacionServer==true&&ConfirmacionCliente==true)
             {
                 
                 // VALIDACIONES NOMBRE JUGADOR 1
