@@ -83,6 +83,7 @@
                         <Setter Property="Width" Value="90"/>
                         <Setter Property="TextAlignment" Value="Center"/>
                         <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Foreground" Value="White"/>
                     </Style>
                     <Style TargetType="TextBox">
                         <Setter Property="Width" Value="90"/>
@@ -143,6 +144,7 @@
                         <Setter Property="Width" Value="90"/>
                         <Setter Property="TextAlignment" Value="Center"/>
                         <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Foreground" Value="White"/>
                     </Style>
                     <Style TargetType="TextBox">
                         <Setter Property="Width" Value="90"/>

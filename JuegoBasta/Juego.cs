@@ -58,8 +58,8 @@ namespace JuegoBasta
         public bool MainVisible { get; set; } = true;
         public ICommand IniciarCommand { get; set; }
         public ICommand JugarCommand { get; set; }
-        public int PuntajeJugador1 { get; set; } = 0 ;
-        public int PuntajeJugador2 { get; set; } = 0 ;
+        public int PuntajeJugador1 { get; set; } = 0;
+        public int PuntajeJugador2 { get; set; } = 0;
         Random r = new Random();
 
 
@@ -89,7 +89,7 @@ namespace JuegoBasta
         }
         public char ElegirLetra()
         {
-            return (char)r.Next('A', 'Z'); 
+            return (char)r.Next('A', 'Z');
         }
 
         // SI CREA PARTIDA SE INICIA COMO SERVIDOR
@@ -127,7 +127,7 @@ namespace JuegoBasta
                 // EL SERVIDOR RECIBE EL COMANDO, QUE SERÍA EL NOMBRE DEL CLIENTE.
                 RecibirComando();
 
-                
+
             }
             else
             {
@@ -291,7 +291,7 @@ namespace JuegoBasta
                                     ventanaJuego.ShowDialog();
                                     lobby.Show();
                                 }));
-                                
+
                                 break;
 
                             case Comando.JugadaEnviada:
@@ -299,7 +299,7 @@ namespace JuegoBasta
                                 {
                                     RespuestaJugador2 = (Respuestas)comandorecibido.DatoRespuestas;
                                     ConfirmacionServer = true;
-                                    EnviarComando(new DatoEnviado { Comando = Comando.JugadaConfirmada, ConfirmarJugada = ConfirmacionServer});
+                                    EnviarComando(new DatoEnviado { Comando = Comando.JugadaConfirmada, ConfirmarJugada = ConfirmacionServer });
                                     CambiarMensaje("Respuestas recibidas");
                                     ActualizarValor();
                                 }));
@@ -330,47 +330,51 @@ namespace JuegoBasta
             }
 
         }
-      
+
         private void Jugar(Respuestas obj)
         {
             if (cliente != null)//Esta jugando el cliente.
             {
                 RespuestaJugador2 = obj;
-                
+
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, DatoRespuestas = RespuestaJugador2 });
-                
+
                 PuedeJugarCliente = false;
-                ActualizarValor();                
+                ActualizarValor();
                 CambiarMensaje("Respuesta enviada");
-                
-               
+
+
             }
             else //Juega un servidor
             {
                 RespuestaJugador1 = obj;
-                
+
                 EnviarComando(new DatoEnviado { Comando = Comando.JugadaEnviada, DatoRespuestas = RespuestaJugador1 });
-                
+
                 PuedeJugarServidor = false;
-                ActualizarValor();                
+                ActualizarValor();
                 CambiarMensaje("¡Respuesta enviada!");
-                
-                
+
+
             }
             _ = ValidarRespuestas();
         }
 
+        int puntaje1 = 0;
+        int puntaje2 = 0;
         async Task ValidarRespuestas()
         {
-            int puntaje1 = 0;
-            int puntaje2 = 0;
-            if (ConfirmacionServer==true&&ConfirmacionCliente==true)
+            if (ConfirmacionServer == true && ConfirmacionCliente == true)
             {
-                
+
                 // VALIDACIONES NOMBRE JUGADOR 1
-                if (RespuestaJugador1.Nombre.ToUpper().StartsWith(Letra.ToString()))
+                if (!string.IsNullOrWhiteSpace(RespuestaJugador1.Nombre))
                 {
-                    if (RespuestaJugador1.Nombre == RespuestaJugador2.Nombre)
+                    if (RespuestaJugador1.Nombre.ToUpper().StartsWith(Letra.ToString()))
+                    {
+                        pNombre1 = 0;
+                    }
+                    else if (RespuestaJugador1.Nombre == RespuestaJugador2.Nombre)
                     {
                         pNombre1 = 50;
                     }
@@ -378,20 +382,17 @@ namespace JuegoBasta
                     {
                         pNombre1 = 100;
                     }
-                    else if (string.IsNullOrWhiteSpace(RespuestaJugador1.Nombre))
-                    {
-                        pNombre1 = 0;
-                    }
                 }
-                else
-                {
-                    pNombre1 = 0;
-                }
+                else pNombre1 = 0;
 
                 // VALIDACIONES NOMBRE JUGADOR 2
-                if (RespuestaJugador2.Nombre.ToUpper().StartsWith(Letra.ToString()))
+                if (!string.IsNullOrWhiteSpace(RespuestaJugador2.Nombre))
                 {
-                    if (RespuestaJugador2.Nombre == RespuestaJugador1.Nombre)
+                    if (!RespuestaJugador2.Nombre.ToUpper().StartsWith(Letra.ToString()))
+                    {
+                        pNombre2 = 0;
+                    }
+                    else if (RespuestaJugador2.Nombre == RespuestaJugador1.Nombre)
                     {
                         pNombre2 = 50;
                     }
@@ -399,20 +400,18 @@ namespace JuegoBasta
                     {
                         pNombre2 = 100;
                     }
-                    else if (string.IsNullOrWhiteSpace(RespuestaJugador2.Nombre))
-                    {
-                        pNombre2 = 0;
-                    }
                 }
-                else
-                {
-                    pNombre2 = 0;
-                }
+                else pNombre2 = 0;
+
 
                 // VALIDACIONES LUGAR JUGADOR 1
-                if (RespuestaJugador1.Lugar.ToUpper().StartsWith(Letra.ToString()))
+                if (!string.IsNullOrWhiteSpace(RespuestaJugador1.Lugar))
                 {
-                    if (RespuestaJugador1.Lugar == RespuestaJugador2.Lugar)
+                    if (!RespuestaJugador1.Lugar.ToUpper().StartsWith(Letra.ToString()))
+                    {
+                        pLugar1 = 0;
+                    }
+                    else if (RespuestaJugador1.Lugar == RespuestaJugador2.Lugar)
                     {
                         pLugar1 = 50;
                     }
@@ -420,20 +419,20 @@ namespace JuegoBasta
                     {
                         pLugar1 = 100;
                     }
-                    else if (string.IsNullOrWhiteSpace(RespuestaJugador1.Lugar))
-                    {
-                        pLugar1 = 0;
-                    }
                 }
-                else
-                {
-                    pLugar1 = 0;
-                }
+                else pLugar1 = 0;
+
 
                 // VALIDACIONES LUGAR JUGADOR 2
-                if (RespuestaJugador2.Lugar.ToUpper().StartsWith(Letra.ToString()))
+                if (!string.IsNullOrWhiteSpace(RespuestaJugador2.Lugar))
                 {
-                    if (RespuestaJugador2.Lugar == RespuestaJugador1.Lugar)
+
+
+                    if (!RespuestaJugador2.Lugar.ToUpper().StartsWith(Letra.ToString()))
+                    {
+                        pLugar2 = 0;
+                    }
+                    else if(RespuestaJugador2.Lugar == RespuestaJugador1.Lugar)
                     {
                         pLugar2 = 50;
                     }
@@ -441,20 +440,18 @@ namespace JuegoBasta
                     {
                         pLugar2 = 100;
                     }
-                    else if (string.IsNullOrWhiteSpace(RespuestaJugador2.Lugar))
-                    {
-                        pLugar2 = 0;
-                    }
                 }
-                else
-                {
-                    pLugar2 = 0;
-                }
+                else pLugar2 = 0;
+
 
                 // VALIDACIONES COMIDA JUGADOR 1
-                if (RespuestaJugador1.Comida.ToUpper().StartsWith(Letra.ToString()))
+                if (!string.IsNullOrWhiteSpace(RespuestaJugador1.Comida))
                 {
-                    if (RespuestaJugador1.Comida == RespuestaJugador2.Comida)
+                    if (!RespuestaJugador1.Comida.ToUpper().StartsWith(Letra.ToString()))
+                    {
+                        pComida1 = 0;
+                    }
+                    else if(RespuestaJugador1.Comida == RespuestaJugador2.Comida)
                     {
                         pComida1 = 50;
                     }
@@ -462,20 +459,18 @@ namespace JuegoBasta
                     {
                         pComida1 = 100;
                     }
-                    else if (string.IsNullOrWhiteSpace(RespuestaJugador1.Comida))
-                    {
-                        pComida1 = 0;
-                    }
                 }
-                else
-                {
-                    pComida1 = 0;
-                }
+                else pComida1 = 0;
 
                 // VALIDACIONES COMIDA JUGADOR 2
-                if (RespuestaJugador2.Comida.ToUpper().StartsWith(Letra.ToString()))
+                if (!string.IsNullOrWhiteSpace(RespuestaJugador2.Comida))
                 {
-                    if (RespuestaJugador2.Comida == RespuestaJugador1.Comida)
+
+                    if (!RespuestaJugador2.Comida.ToUpper().StartsWith(Letra.ToString()))
+                    {
+                        pComida2 = 0;
+                    }
+                    else if(RespuestaJugador2.Comida == RespuestaJugador1.Comida)
                     {
                         pComida2 = 50;
                     }
@@ -483,20 +478,19 @@ namespace JuegoBasta
                     {
                         pComida2 = 100;
                     }
-                    else if (string.IsNullOrWhiteSpace(RespuestaJugador2.Comida))
-                    {
-                        pComida2 = 0;
-                    }
                 }
-                else
-                {
-                    pComida2 = 0;
-                }
+                else pComida2 = 0;
+
 
                 // VALIDACIONES COLOR JUGADOR 1
-                if (RespuestaJugador1.Color.ToUpper().StartsWith(Letra.ToString()))
+                if (!string.IsNullOrWhiteSpace(RespuestaJugador1.Color))
                 {
-                    if (RespuestaJugador1.Color == RespuestaJugador2.Color)
+
+                    if (!RespuestaJugador1.Color.ToUpper().StartsWith(Letra.ToString()))
+                    {
+                        pColor1 = 0;
+                    }
+                    else if(RespuestaJugador1.Color == RespuestaJugador2.Color)
                     {
                         pColor1 = 50;
                     }
@@ -504,20 +498,19 @@ namespace JuegoBasta
                     {
                         pColor1 = 100;
                     }
-                    else if (string.IsNullOrWhiteSpace(RespuestaJugador1.Color))
-                    {
-                        pColor1 = 0;
-                    }
                 }
-                else
-                {
-                    pColor1 = 0;
-                }
+                else pColor1 = 0;
+
 
                 // VALIDACIONES COLOR JUGADOR 2
-                if (RespuestaJugador2.Color.ToUpper().StartsWith(Letra.ToString()))
+                if (!string.IsNullOrWhiteSpace(RespuestaJugador2.Color))
                 {
-                    if (RespuestaJugador2.Color == RespuestaJugador1.Color)
+
+                    if (!RespuestaJugador2.Color.ToUpper().StartsWith(Letra.ToString()))
+                    {
+                        pColor2 = 0;
+                    }
+                    else if(RespuestaJugador2.Color == RespuestaJugador1.Color)
                     {
                         pColor2 = 50;
                     }
@@ -525,20 +518,17 @@ namespace JuegoBasta
                     {
                         pColor2 = 100;
                     }
-                    else if (string.IsNullOrWhiteSpace(RespuestaJugador2.Color))
-                    {
-                        pColor2 = 0;
-                    }
                 }
-                else
-                {
-                    pColor2 = 0;
-                }
+                else pColor2 = 0;
 
                 // VALIDACIONES ANIMAL JUGADOR 1
-                if (RespuestaJugador1.Animal.ToUpper().StartsWith(Letra.ToString()))
+                if (string.IsNullOrWhiteSpace(RespuestaJugador1.Animal))
                 {
-                    if (RespuestaJugador1.Animal == RespuestaJugador2.Animal)
+                    if (!RespuestaJugador1.Animal.ToUpper().StartsWith(Letra.ToString()))
+                    {
+                        pAnimal1 = 0;
+                    }
+                    else if (RespuestaJugador1.Animal == RespuestaJugador2.Animal)
                     {
                         pAnimal1 = 50;
                     }
@@ -546,20 +536,19 @@ namespace JuegoBasta
                     {
                         pAnimal1 = 100;
                     }
-                    else if (string.IsNullOrWhiteSpace(RespuestaJugador1.Animal))
-                    {
-                        pAnimal1 = 0;
-                    }
+
                 }
-                else
-                {
-                    pAnimal1 = 0;
-                }
+                else pAnimal1 = 0;
+
 
                 // VALIDACIONES ANIMAL JUGADOR 2
-                if (RespuestaJugador2.Animal.ToUpper().StartsWith(Letra.ToString()))
+                if (string.IsNullOrWhiteSpace(RespuestaJugador2.Animal))
                 {
-                    if (RespuestaJugador2.Animal == RespuestaJugador1.Animal)
+                    if (!RespuestaJugador2.Animal.ToUpper().StartsWith(Letra.ToString()))
+                    {
+                        pAnimal2 = 0;
+                    }
+                    else if (RespuestaJugador2.Animal == RespuestaJugador1.Animal)
                     {
                         pAnimal2 = 50;
                     }
@@ -567,29 +556,23 @@ namespace JuegoBasta
                     {
                         pAnimal2 = 100;
                     }
-                    else if (string.IsNullOrWhiteSpace(RespuestaJugador2.Animal))
-                    {
-                        pAnimal2 = 0;
-                    }
                 }
-                else
-                {
-                    pAnimal2 = 0;
-                }
+                else pAnimal2 = 0;
+                
 
-                PuntajeJugador1 = pNombre1 + pComida1 + pColor1 + pLugar1 + pAnimal1;
-                PuntajeJugador2 = pNombre2 + pComida2 + pColor2 + pLugar2 + pAnimal2;
-               
+                PuntajeJugador1 = PuntajeJugador1 + (pNombre1 + pComida1 + pColor1 + pLugar1 + pAnimal1);
+                PuntajeJugador2 = PuntajeJugador2 + (pNombre2 + pComida2 + pColor2 + pLugar2 + pAnimal2);
+
+
+                bool ganaJugador1 = (PuntajeJugador1 > PuntajeJugador2);
+
                 if (PuntajeJugador1 == PuntajeJugador2)
                 {
                     CambiarMensaje("Empate");
                     puntaje1++;
                     puntaje2++;
                 }
-
-                bool ganaJugador1 = (PuntajeJugador1 > PuntajeJugador2);
-
-                if (ganaJugador1)
+                else if (ganaJugador1)
                 {
                     CambiarMensaje($"Gana jugador {Jugador1}");
                     puntaje1++;
@@ -600,18 +583,15 @@ namespace JuegoBasta
                     puntaje2++;
                 }
 
-                if (puntaje1 < 3 && puntaje2 < 3)
+                if (puntaje1 <= 3 && puntaje2 <= 3)
                 {
                     await Task.Delay(10000);
                     CambiarMensaje("Esperando el siguiente turno");
                     await Task.Delay(10000);
-                    RespuestaJugador1 = null;
-                    RespuestaJugador2 = null;
-                    pAnimal1 = pAnimal2 = 0;
-                    pNombre1 = pNombre2 = 0;
-                    pColor1 = pColor2 = 0;
-                    pLugar1 = pLugar2 = 0;
-                    pComida1 = pComida2 = 0;
+                    RespuestaJugador1.Nombre = RespuestaJugador1.Lugar = RespuestaJugador1.Color = RespuestaJugador1.Comida = RespuestaJugador1.Animal=null;
+                    RespuestaJugador2.Nombre = RespuestaJugador2.Lugar = RespuestaJugador2.Color = RespuestaJugador2.Comida = RespuestaJugador2.Animal = null;
+                    pNombre1 = pAnimal1 = pColor1 = pComida1 = pLugar1 =0;
+                    pNombre2 = pAnimal2 = pColor2 = pComida2 = pLugar2 = 0;
 
                     if (cliente != null)
                     {
@@ -621,6 +601,8 @@ namespace JuegoBasta
                     {
                         PuedeJugarServidor = true;
                     }
+
+                    ConfirmacionServer = ConfirmacionCliente = false;
 
                     Letra = ElegirLetra();
                     EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, LetraRandom = Letra });
@@ -632,7 +614,7 @@ namespace JuegoBasta
                     CambiarMensaje("Juego terminado. Ganó " + ((PuntajeJugador1 > PuntajeJugador2) ? Jugador1 : Jugador2));
                 }
             }
-        }        
+        }
     }
 
     public class DatoEnviado
