@@ -76,6 +76,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="OpcionesVisual.cs" />
     <Compile Include="Respuestas.cs" />
     <Page Include="JuegoBastaWindow.xaml">
       <SubType>Designer</SubType>

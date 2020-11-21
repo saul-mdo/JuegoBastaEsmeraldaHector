@@ -94,17 +94,17 @@
                         <Setter Property="Foreground" Value="White"/>
                     </Style>
                 </UniformGrid.Resources>
-                <GroupBox BorderThickness="0">
+                <GroupBox BorderThickness=".5" Header="Jugador 1" Foreground="White">
                     <GroupBox.Style>
                         <Style TargetType="GroupBox">
                             <Setter Property="IsEnabled" Value="{Binding PuedeJugarServidor}"></Setter>
                         </Style>
                     </GroupBox.Style>
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" >
-                            <StackPanel>
+                        <StackPanel>
                                 <Label>Nombre:</Label>
-                                <TextBox Text="{Binding RespuestaJugador1.Nombre}"></TextBox>
-                            </StackPanel>
+                            <TextBox Text="{Binding RespuestaJugador1.Nombre}">       </TextBox>
+                        </StackPanel>
                         <StackPanel>
                             <Label>Lugar:</Label>
                             <TextBox Text="{Binding RespuestaJugador1.Lugar}"></TextBox>
@@ -121,6 +121,16 @@
                             <Label>Comida:</Label>
                             <TextBox Text="{Binding RespuestaJugador1.Comida}"></TextBox>
                         </StackPanel>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Hidden"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding showRespuestas1}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
                     </StackPanel>
                 </GroupBox>
 
@@ -165,7 +175,7 @@
                     </StackPanel>
                 </GroupBox>
 
-                <GroupBox BorderThickness="0">
+                <GroupBox BorderThickness=".5" Header="Jugador 2" Foreground="White" >
                     <GroupBox.Style>
                         <Style TargetType="GroupBox">
                             <Setter Property="IsEnabled" Value="{Binding PuedeJugarCliente}"></Setter>

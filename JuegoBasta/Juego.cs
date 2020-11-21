@@ -11,6 +11,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -18,7 +19,7 @@ using System.Windows.Threading;
 namespace JuegoBasta
 {
     public enum Comando { NombreEnviado, LetraEnviada, JugadaEnviada, JugadaConfirmada }
-    public class Juego : INotifyPropertyChanged
+    public partial class Juego : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         void ActualizarValor(string propertyName = null)
@@ -360,8 +361,9 @@ namespace JuegoBasta
             _ = ValidarRespuestas();
         }
 
-        int puntaje1 = 0;
-        int puntaje2 = 0;
+        public int puntaje1 { get; set; }
+        public int puntaje2 { get; set; }
+        
         async Task ValidarRespuestas()
         {            
             
@@ -716,9 +718,9 @@ namespace JuegoBasta
                     puntaje2++;
                 }
 
-               
+                
 
-                if (puntaje1 <= 3 && puntaje2 <= 3)
+                if (puntaje1 <= 2 && puntaje2 <= 2)
                 {
                     await Task.Delay(10000);
                     CambiarMensaje("Esperando el siguiente turno");
@@ -750,10 +752,10 @@ namespace JuegoBasta
                     await Task.Delay(10000);
                     if(PuntajeJugador1==PuntajeJugador2)
                     {
-                        CambiarMensaje("Juego terminado. Hubo un empate" );
+                        CambiarMensaje("Juego terminado. Hay un empate" );
                     }
                     else
-                    CambiarMensaje("Juego terminado. Ganó " + ((PuntajeJugador1 > PuntajeJugador2) ? Jugador1 : Jugador2));
+                    CambiarMensaje("Juego terminado. Gana " + ((PuntajeJugador1 > PuntajeJugador2) ? Jugador1 : Jugador2));
                 }
             }
         }
