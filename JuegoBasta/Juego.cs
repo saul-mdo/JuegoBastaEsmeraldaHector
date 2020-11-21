@@ -62,8 +62,6 @@ namespace JuegoBasta
         public int PuntajeJugador1 { get; set; } = 0;
         public int PuntajeJugador2 { get; set; } = 0;
         Random r = new Random();
-
-
         public char Letra { get; set; }
 
         public Respuestas RespuestaJugador1 { get; set; } = new Respuestas();
@@ -71,10 +69,7 @@ namespace JuegoBasta
 
         public bool PuedeJugarCliente { get; set; }
         public bool PuedeJugarServidor { get; set; }
-
-
         public bool ConfirmacionServer { get; set; } = false;
-
         public bool ConfirmacionCliente { get; set; } = false;
 
         HttpListener servidor;
@@ -127,8 +122,6 @@ namespace JuegoBasta
                 EnviarComando(new DatoEnviado { Comando = Comando.NombreEnviado, Nombre = Jugador1 });
                 // EL SERVIDOR RECIBE EL COMANDO, QUE SERÍA EL NOMBRE DEL CLIENTE.
                 RecibirComando();
-
-
             }
             else
             {
@@ -334,6 +327,8 @@ namespace JuegoBasta
 
         private void Jugar(Respuestas obj)
         {
+
+
             if (cliente != null)//Esta jugando el cliente.
             {
                 RespuestaJugador2 = obj;
@@ -354,7 +349,7 @@ namespace JuegoBasta
 
                 PuedeJugarServidor = false;
                 ActualizarValor();
-                CambiarMensaje("¡Respuesta enviada!");
+                CambiarMensaje("Respuesta enviada");
 
 
             }
@@ -363,7 +358,10 @@ namespace JuegoBasta
 
         public int puntaje1 { get; set; }
         public int puntaje2 { get; set; }
-        
+
+        public int puntaje1Ronda { get; set; }
+        public int puntaje2Ronda { get; set; }
+
         async Task ValidarRespuestas()
         {            
             
@@ -694,8 +692,8 @@ namespace JuegoBasta
                 }
 
 
-                var puntaje1Ronda= pNombre1 + pComida1 + pColor1 + pLugar1 + pAnimal1;
-                var puntaje2Ronda= pNombre2 + pComida2 + pColor2 + pLugar2 + pAnimal2;
+                puntaje1Ronda= pNombre1 + pComida1 + pColor1 + pLugar1 + pAnimal1;
+                puntaje2Ronda= pNombre2 + pComida2 + pColor2 + pLugar2 + pAnimal2;
                 PuntajeJugador1 = PuntajeJugador1 + puntaje1Ronda;
                 PuntajeJugador2 = PuntajeJugador2 + puntaje2Ronda;
 
@@ -711,14 +709,16 @@ namespace JuegoBasta
                 {
                     CambiarMensaje($"Gana jugador {Jugador1}");
                     puntaje1++;
+                    puntaje1Ronda = 0;
+                    puntaje2Ronda = 0;
                 }
                 else
                 {
                     CambiarMensaje($"Gana jugador {Jugador2}");
                     puntaje2++;
+                    puntaje1Ronda = 0;
+                    puntaje2Ronda = 0;
                 }
-
-                
 
                 if (puntaje1 <= 2 && puntaje2 <= 2)
                 {
@@ -743,8 +743,6 @@ namespace JuegoBasta
 
                     ConfirmacionServer = ConfirmacionCliente = false;
 
-                   // Letra = ElegirLetra();
-                   // EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, LetraRandom = Letra });
                     CambiarMensaje("Escribe tus respuestas");
                 }
                 else

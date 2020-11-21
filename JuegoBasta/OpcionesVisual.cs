@@ -8,20 +8,20 @@ namespace JuegoBasta
 {
    public partial class Juego
     {
-        public bool showRespuestas1
+        public bool showRespuestasServidor
         {
             get
             {
-                return servidor != null || (RespuestaJugador1 != null && RespuestaJugador2 != null);
+                return servidor != null || (ConfirmacionCliente == true && ConfirmacionServer == true) ;
             }
         }
 
 
-        public bool showRespuestas2
+        public bool showRespuestasCliente
         {
             get
             {
-                return cliente != null || (RespuestaJugador1 != null && RespuestaJugador2 != null);
+                return cliente != null || (ConfirmacionCliente == true && ConfirmacionServer == true);
             }
         }
     }
