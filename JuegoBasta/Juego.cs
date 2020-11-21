@@ -692,14 +692,14 @@ namespace JuegoBasta
                 }
 
 
+                var puntaje1Ronda= pNombre1 + pComida1 + pColor1 + pLugar1 + pAnimal1;
+                var puntaje2Ronda= pNombre2 + pComida2 + pColor2 + pLugar2 + pAnimal2;
+                PuntajeJugador1 = PuntajeJugador1 + puntaje1Ronda;
+                PuntajeJugador2 = PuntajeJugador2 + puntaje2Ronda;
 
-                PuntajeJugador1 = PuntajeJugador1 + (pNombre1 + pComida1 + pColor1 + pLugar1 + pAnimal1);
-                PuntajeJugador2 = PuntajeJugador2 + (pNombre2 + pComida2 + pColor2 + pLugar2 + pAnimal2);
+                bool ganaJugador1 = (puntaje1Ronda > puntaje2Ronda);
 
-
-                bool ganaJugador1 = (PuntajeJugador1 > PuntajeJugador2);
-
-                if (PuntajeJugador1 == PuntajeJugador2)
+                if (puntaje1Ronda == puntaje2Ronda)
                 {
                     CambiarMensaje("Empate");
                     puntaje1++;
@@ -715,6 +715,8 @@ namespace JuegoBasta
                     CambiarMensaje($"Gana jugador {Jugador2}");
                     puntaje2++;
                 }
+
+               
 
                 if (puntaje1 <= 3 && puntaje2 <= 3)
                 {
@@ -733,17 +735,24 @@ namespace JuegoBasta
                     if (servidor != null)
                     {
                         PuedeJugarServidor = true;
+                        Letra = ElegirLetra();
+                        EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, LetraRandom = Letra });
                     }
 
                     ConfirmacionServer = ConfirmacionCliente = false;
 
-                    Letra = ElegirLetra();
-                    EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, LetraRandom = Letra });
+                   // Letra = ElegirLetra();
+                   // EnviarComando(new DatoEnviado { Comando = Comando.LetraEnviada, LetraRandom = Letra });
                     CambiarMensaje("Escribe tus respuestas");
                 }
                 else
                 {
                     await Task.Delay(10000);
+                    if(PuntajeJugador1==PuntajeJugador2)
+                    {
+                        CambiarMensaje("Juego terminado. Hubo un empate" );
+                    }
+                    else
                     CambiarMensaje("Juego terminado. Ganó " + ((PuntajeJugador1 > PuntajeJugador2) ? Jugador1 : Jugador2));
                 }
             }
